@@ -1,7 +1,7 @@
 package textAdventureGame;
 import java.util.Scanner;
 
-public class Player {
+public class Player extends Fighting {
 	String name;
 	int health = 100;
 	int baseDamage = 5;
@@ -28,6 +28,8 @@ public class Player {
 				System.out.println();
 			}
 		}
+		//input.close(); //this for some reason stops all input from being taken afterwards with a different Scanner object as System.in can seemingly not be reopened
 	}
+	
 	
 }

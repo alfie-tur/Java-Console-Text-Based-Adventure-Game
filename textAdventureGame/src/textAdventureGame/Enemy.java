@@ -1,6 +1,6 @@
 package textAdventureGame;
 
-public class Enemy {
+public class Enemy extends Fighting {
 	String name;
 	int health;
 	int baseDamage;
@@ -10,9 +10,4 @@ public class Enemy {
 		this.health = health;
 		this.baseDamage = baseDamage;
 	} //this allows me to set Enemy attributes specific to each object made
-	
-	static int attack() {
-		return 0; //this is temporary so that an error is not spotted by the IDE
-	}
-	
 }
