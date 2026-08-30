@@ -1,6 +1,6 @@
 package textAdventureGame;
 
-public class Fighting extends Main {
+public class Fighting {
 	
 	public int baseAttack(int health, int damage, int enemyHealth) {
 		enemyHealth = enemyHealth - damage;

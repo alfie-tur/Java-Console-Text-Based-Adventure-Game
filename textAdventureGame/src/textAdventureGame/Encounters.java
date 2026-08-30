@@ -36,11 +36,14 @@ public class Encounters {
 				int attackRoll = diceRoll();
 				System.out.println("You rolled: " + attackRoll);
 				
-				if (attackRoll == 0) { System.out.println("Critical fail!\nYou damage yourself!"); player.health = player.health - diceRoll();} //roll for 0 //damage to self between 0-20
+				if (attackRoll == 0) { 
+					int damageSelf = diceRoll();
+					System.out.println("Critical fail!\nYou damage yourself for " + damageSelf + "HP!"); player.health = player.health - damageSelf;
+					} //roll for 0 //damage to self between 0-20
 				
-				else if (attackRoll == 20) { System.out.println("Critical success!\nYou manage to pull off an extremely impressive hit!"); enemyObject.health = enemyObject.health - (player.baseDamage + 20); }
-				//roll for 20 ^
-				
+				else if (attackRoll == 20) { System.out.println("Critical success!\nYou manage to pull off an extremely impressive hit for " + (player.baseDamage + 20) + "HP!"); 
+				enemyObject.health = enemyObject.health - (player.baseDamage + 20); 
+				}//roll for 20 
 				
 				else if (attackRoll > 4 && attackRoll <= 7){ /*all these code blocks are for different attack roles, I thought about doing it as attackRole + baseDamage but decided against it as that would allow for very powerful attacks
 					Also debated doing something like (attackRoll - 5) + baseAttack but thought that wouldn't work great for numbers like 2 even with Math.abs()
@@ -93,6 +96,9 @@ public class Encounters {
 			if(enemyObject.health <= 30 && enemyChoice > 17){ //enemy heals
 				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
 				enemyObject.health += 20; // enemy heals
+				
+				System.out.println(); //line to spread out console
+				
 				System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health); //writing new health to the console
 			}
 			
@@ -101,14 +107,13 @@ public class Encounters {
 				if (enemyChoice > 4 && enemyChoice <= 7) {
 					System.out.println("+3 Damage!");
 					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " attacks!"); // Letting you know the enemies action
-					
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 3;
 					player.health = newPlayerHealth; //calculation for enemies attack
 					
 					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 3) + "HP");
+					
+					System.out.println(); //line to spread out console
+					
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 					//writing to the console the amount attacking for
 					
@@ -116,46 +121,51 @@ public class Encounters {
 				}
 				else if (enemyChoice > 7 && enemyChoice <= 12) {
 					System.out.println("+5 Damage!");
-					System.out.println(); //line to spread out console
-					System.out.println(enemyObject.name + " attacks!");
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 5;
 					player.health = newPlayerHealth;
 					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 5) + "HP");
+					
+					System.out.println(); //line to spread out console
+					
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 					System.out.println();//just a line to spread out the console
 				}
 				else if (enemyChoice > 12 && enemyChoice <= 16) {
 					System.out.println("+7 Damage!");
-					System.out.println(); //line to spread out console
-					System.out.println(enemyObject.name + " attacks!");
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 7;
 					player.health = newPlayerHealth;
 					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 7) + "HP");
+					
+					System.out.println(); //line to spread out console
+					
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 					System.out.println();//just a line to spread out the console
 				}
 				else if (enemyChoice > 16 && enemyChoice < 20) {
 					System.out.println("+10 Damage!");
-					System.out.println(); //line to spread out console
-					System.out.println(enemyObject.name + " attacks!");
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 10;
 					player.health = newPlayerHealth;
 					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 10) + "HP");
+					
+					System.out.println(); //line to spread out console
+					
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 					System.out.println();//just a line to spread out the console
 				}
 				else {
-					System.out.println(); //line to spread out console
-					System.out.println(enemyObject.name + " attacks!");
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health);
 					player.health = newPlayerHealth;
 					System.out.println(enemyObject.name + " attacks for " + enemyObject.baseDamage + "HP");
+					
+					System.out.println(); //line to spread out console
+					
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 					System.out.println();//just a line to spread out the console
 				}
 			}
 			
 		}
+		System.out.println(player.health);
 		
 	}
 	
