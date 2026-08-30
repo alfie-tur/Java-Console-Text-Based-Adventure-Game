@@ -13,6 +13,13 @@ public class Main {
 		int rand = (int)(Math.random() * range) + min;
 		return rand;
 	}
+	static int randNum() { //random number 1-10
+		int max = 11;
+		int min = 0;
+		int range = max - min;
+		int rand = (int)(Math.random() * range) + min;
+		return rand;
+	}
 	
 	
 	public static void main(String[] args) {
@@ -46,15 +53,56 @@ public class Main {
 				switch (choice) {
 				
 				case "ATTACK":
-					int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health); //attackerHealth, attackerDamage, enemyHealth
-					goblinEnemy.health = newGoblinHealth;
-					System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health); //the logic for using a base attack on an enemy
+					System.out.println("Attack Roll!");
+					int attackRoll = diceRoll();
+					System.out.println("You rolled: " + attackRoll);
+					
+					if (attackRoll == 0) { System.out.println("Critical fail!\nYou damage yourself!"); player.health = player.health - randNum();} //roll for 0 
+					
+					else if (attackRoll == 20) { System.out.println("Critical success!\nYou manage to pull off an extremely impressive hit!"); goblinEnemy.health = goblinEnemy.health - (player.baseDamage + 20); }
+					//roll for 20 ^
+					
+					
+					else if (attackRoll > 4 && attackRoll <= 7){
+						System.out.println("+3 Damage!");
+							int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health - 3); //attackerHealth, attackerDamage, enemyHealth
+							goblinEnemy.health = newGoblinHealth;
+							System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					} //the logic for using a base attack on an enemy
+					
+					else if (attackRoll > 7 && attackRoll <= 12){
+						System.out.println("+5 Damage!");
+						int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health - 5); //attackerHealth, attackerDamage, enemyHealth
+						goblinEnemy.health = newGoblinHealth;
+						System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					}
+					else if (attackRoll > 12 && attackRoll <= 16){
+						System.out.println("+7 Damage");
+						int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health - 7); //attackerHealth, attackerDamage, enemyHealth
+						goblinEnemy.health = newGoblinHealth;
+						System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					}
+					else if (attackRoll > 16 && attackRoll < 20){
+						System.out.println("+9 Damage!");
+						int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health - 9); //attackerHealth, attackerDamage, enemyHealth
+						goblinEnemy.health = newGoblinHealth;
+						System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					}
+					else {
+						int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health); //attackerHealth, attackerDamage, enemyHealth
+						goblinEnemy.health = newGoblinHealth;
+						System.out.println(goblinEnemy.name + " Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					}
+					
 					break;
 				
 				case "RUN":
 					int fleeChance = diceRoll();
 					if (fleeChance == 20) { System.out.println("You successfully ran away"); break breakLabel; }
 					break;
+				
+				default:
+					System.out.println("Not a valid option, you forfeit your turn. That'll teach you!");
 				}
 				
 				int goblinChoice = diceRoll();
@@ -66,6 +114,7 @@ public class Main {
 					goblinEnemy.health += 20;
 					System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
 				}
+				
 				else { //goblin attack
 					System.out.println(); //line to spread out console
 					System.out.println("The Goblin attacks!");

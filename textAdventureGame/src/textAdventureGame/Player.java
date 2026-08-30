@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Player extends Fighting {
 	String name;
 	int health = 100;
-	int baseDamage = 5;
+	int baseDamage = 3;
 	
 	public void characterCreation() {
 		Scanner input = new Scanner(System.in);
