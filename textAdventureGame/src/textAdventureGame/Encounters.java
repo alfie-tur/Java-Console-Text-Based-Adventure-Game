@@ -4,11 +4,9 @@ import java.util.Scanner;
 
 public class Encounters {
 	
-	static int diceRoll() { //whenever this is called it returns a random number
-		int max = 21; //needs to be 21 so that the max can = 20
-		int min = 0;
-		int range = max - min;
-		int rand = (int)(Math.random() * range) + min;
+	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
+		int range = 21;
+		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
 		return rand;
 	}
 
@@ -44,11 +42,13 @@ public class Encounters {
 				//roll for 20 ^
 				
 				
-				else if (attackRoll > 4 && attackRoll <= 7){
+				else if (attackRoll > 4 && attackRoll <= 7){ /*all these code blocks are for different attack roles, I thought about doing it as attackRole + baseDamage but decided against it as that would allow for very powerful attacks
+					Also debated doing something like (attackRoll - 5) + baseAttack but thought that wouldn't work great for numbers like 2 even with Math.abs()
+					I may revisit this idea later*/
 					System.out.println("+3 Damage!");
-						int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 3); //attackerHealth, attackerDamage, enemyHealth
-						enemyObject.health = newEnemyHealth;
-						System.out.println("You attack for " + (player.baseDamage + 3) + "HP");
+					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 3); //attackerHealth, attackerDamage, enemyHealth
+					enemyObject.health = newEnemyHealth; //performs the calculations for the attack
+					System.out.println("You attack for " + (player.baseDamage + 3) + "HP");
 				} //the logic for using a base attack on an enemy
 				
 				else if (attackRoll > 7 && attackRoll <= 12){
@@ -90,22 +90,29 @@ public class Encounters {
 			System.out.println();
 			System.out.println(enemyObject.name + " dice roll: " + enemyChoice);
 			
-			if(enemyObject.health <= 30 && enemyChoice > 17){ //goblin heals
-				System.out.println(enemyObject.name + " has used a healing potion");
-				enemyObject.health += 20;
-				System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
+			if(enemyObject.health <= 30 && enemyChoice > 17){ //enemy heals
+				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
+				enemyObject.health += 20; // enemy heals
+				System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health); //writing new health to the console
 			}
 			
-			else { //goblin attack
+			else { //enemy attack: these code blocks are all the goblin attacks with different attack bonuses based on the dice roll
+				//I did think about just doing one code block as the dice roll added onto the damage but I didn't like that idea, although it likely would have been better for the code
 				if (enemyChoice > 4 && enemyChoice <= 7) {
 					System.out.println("+3 Damage!");
+					
 					System.out.println(); //line to spread out console
-					System.out.println(enemyObject.name + " attacks!");
+					
+					System.out.println(enemyObject.name + " attacks!"); // Letting you know the enemies action
+					
 					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 3;
-					player.health = newPlayerHealth;
+					player.health = newPlayerHealth; //calculation for enemies attack
+					
 					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 3) + "HP");
 					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					System.out.println();//just a line to spread out the console
+					//writing to the console the amount attacking for
+					
+					System.out.println();//line to spread out the console
 				}
 				else if (enemyChoice > 7 && enemyChoice <= 12) {
 					System.out.println("+5 Damage!");
