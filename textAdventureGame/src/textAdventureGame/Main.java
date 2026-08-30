@@ -37,22 +37,42 @@ public class Main {
 			System.out.println("The enemies health: " + goblinEnemy.health);
 			
 			while(player.health > 0 && goblinEnemy.health > 0) {
-				System.out.println(goblinEnemy.health);
+				
 				System.out.println("Make your move");
 				System.out.println("Attack");
 				System.out.println("Run");
 				
 				choice = input.nextLine().toUpperCase();
 				switch (choice) {
+				
 				case "ATTACK":
-					int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health);
+					int newGoblinHealth = player.baseAttack(player.health, player.baseDamage, goblinEnemy.health); //attackerHealth, attackerDamage, enemyHealth
 					goblinEnemy.health = newGoblinHealth;
-					System.out.println("Goblin Health: " + goblinEnemy.health + "\n Your health: " + player.health);
+					System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health); //the logic for using a base attack on an enemy
 					break;
+				
 				case "RUN":
 					int fleeChance = diceRoll();
 					if (fleeChance == 20) { System.out.println("You successfully ran away"); break breakLabel; }
 					break;
+				}
+				
+				int goblinChoice = diceRoll();
+				System.out.println("Goblin dice roll: " + goblinChoice);
+				
+				if(goblinEnemy.health <= 30 && goblinChoice > 17){ //goblin heals
+					System.out.println();
+					System.out.println("The Goblin has used a healing potion");
+					goblinEnemy.health += 20;
+					System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+				}
+				else { //goblin attack
+					System.out.println(); //line to spread out console
+					System.out.println("The Goblin attacks!");
+					int newPlayerHealth = goblinEnemy.baseAttack(goblinEnemy.health, goblinEnemy.baseDamage, player.health);
+					player.health = newPlayerHealth;
+					System.out.println("Goblin Health: " + goblinEnemy.health + "\nYour health: " + player.health);
+					System.out.println(); //just a line to spread out the console
 				}
 
 				
