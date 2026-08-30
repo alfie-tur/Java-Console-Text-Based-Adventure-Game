@@ -12,7 +12,7 @@ public class Enemy {
 	} //this allows me to set Enemy attributes specific to each object made
 	
 	static int attack() {
-		return 0;
+		return 0; //this is temporary so that an error is not spotted by the IDE
 	}
 	
 }
