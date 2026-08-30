@@ -10,6 +10,19 @@ public class Encounters {
 		return rand;
 	}
 
+	public void decision() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("What would you like to do?");
+		System.out.println("Walk");
+		
+		String choice = input.nextLine().toUpperCase();
+		
+		if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
+			
+			enemyEncounter("Goblin", 50, 3);
+			
+		}
+	}
 	
 	public void enemyEncounter(String enemyName, int health, int baseDamage) {
 		Player player = new Player();

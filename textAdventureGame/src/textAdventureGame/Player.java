@@ -5,13 +5,15 @@ public class Player extends Fighting {
 	String name;
 	int health = 100;
 	int baseDamage = 3;
+	String currentLocation;
+	String[] itemBag = new String[5];
 	
 	public void characterCreation() {
 		Scanner input = new Scanner(System.in);
 		boolean happyName = false;
 		
 		while (happyName == false) {
-			System.out.println("Enter your name");
+			System.out.println("Enter your name:");
 			name = input.nextLine();
 			System.out.println("Your name is: " + name);
 			System.out.println("Are you happy with this name? Y/N");
