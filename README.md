@@ -9,3 +9,5 @@ Infinitely running code until you decide to end it,
 Various enemies to randomly encounter,
 Companion system where you can have a companion to assist you,
 Multiple enemies in one encounter
+
+I would eventually like to use Java swing to have a proper GUI for this project even if it is just simple images. I believe this will take some work to convert the code from console output to swing output so for now I will continue just coding the logic of the program and having it output into the console.
