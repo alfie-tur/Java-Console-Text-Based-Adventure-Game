@@ -9,19 +9,43 @@ public class Encounters {
 		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
 		return rand;
 	}
+	static int randNum() { //random number from 1-100
+		int range = 100;
+		int rand = (int)(Math.random() * range + 1);
+		return rand;
+	}
 
 	public void decision() {
 		Scanner input = new Scanner(System.in);
+		Player player = new Player();
 		System.out.println("What would you like to do?");
 		System.out.println("Walk");
+		System.out.println("View Inventory");
 		
 		String choice = input.nextLine().toUpperCase();
 		
 		if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
 			
-			enemyEncounter("Goblin", 50, 3);
+			int randNum = randNum();
+			
+			if (randNum >= 90) {
+				enemyEncounter("Goblin", 50, 3);
+			}
+			
+			else {
+				System.out.println("You walk for sometime and find nothing");
+			}
 			
 		}
+		
+		else if (choice.contains("INVENTORY")) {
+			
+			for (String item : player.itemBag) {
+				System.out.println(item);
+			}
+			
+		}
+		
 	}
 	
 	public void enemyEncounter(String enemyName, int health, int baseDamage) {
@@ -176,7 +200,10 @@ public class Encounters {
 					System.out.println();//just a line to spread out the console
 				}
 			}
-			
+			if (player.health < 0) {
+				System.out.println("You died, tough luck");
+				System.exit(0);
+			}
 		}
 		System.out.println(player.health);
 		
