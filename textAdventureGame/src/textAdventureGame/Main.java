@@ -12,6 +12,7 @@ public class Main {
 		player.characterCreation();
 		
 		//System.out.println("You are " + player.name + " Your health is " + player.health + " Your base damage is " + player.baseDamage); //testing if all the values have been correctly set
+		
 		encounter.decision();
 		
 	}

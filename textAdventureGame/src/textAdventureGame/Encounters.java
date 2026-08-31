@@ -18,30 +18,45 @@ public class Encounters {
 	public void decision() {
 		Scanner input = new Scanner(System.in);
 		Player player = new Player();
-		System.out.println("What would you like to do?");
-		System.out.println("Walk");
-		System.out.println("View Inventory");
 		
-		String choice = input.nextLine().toUpperCase();
+		boolean game = true;
 		
-		if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
+		while (game) {
+		
+			System.out.println("What would you like to do?");
+			System.out.println("Walk");
+			System.out.println("View Inventory");
+			System.out.println("Quit Game");
 			
-			int randNum = randNum();
+			String choice = input.nextLine().toUpperCase();
 			
-			if (randNum >= 90) {
-				enemyEncounter("Goblin", 50, 3);
+			if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
+				
+				int randNum = randNum();
+				
+				if (randNum >= 90) {
+					enemyEncounter("Goblin", 50, 3);
+				}
+				
+				else {
+					System.out.println("You walk for sometime and find nothing");
+					System.out.println();
+				}
+				
 			}
 			
-			else {
-				System.out.println("You walk for sometime and find nothing");
+			else if (choice.contains("INV")) {
+				
+				System.out.println("Bag contents: ");
+				for (String item : player.itemBag) {
+					System.out.println(item);
+				}
+				System.out.println();
+				
 			}
 			
-		}
-		
-		else if (choice.contains("INVENTORY")) {
-			
-			for (String item : player.itemBag) {
-				System.out.println(item);
+			else if (choice.contains("Q")) {
+				game = false;
 			}
 			
 		}
@@ -203,6 +218,11 @@ public class Encounters {
 			if (player.health < 0) {
 				System.out.println("You died, tough luck");
 				System.exit(0);
+			}
+			
+			if (enemyObject.health <= 0) {
+				System.out.println("You have won!");
+				System.out.println("After the long fight you rest for a few hours to recover your strength...");
 			}
 		}
 		System.out.println(player.health);
