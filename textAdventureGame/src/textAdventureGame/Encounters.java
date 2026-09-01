@@ -132,16 +132,20 @@ public class Encounters {
 				
 				if (attackRoll == 0) { 
 					int damageSelf = diceRoll();
-					System.out.println("Critical fail!\nYou damage yourself for " + damageSelf + "HP!"); player.health = player.health - damageSelf;
+					System.out.println("Critical fail!\nYou trip when attempting to go in for an attack, causing you to fall into your own blade! ");
+					System.out.println("You damage yourself for " + damageSelf + "HP");
+					player.health = player.health - damageSelf;
 					} //roll for 0 //damage to self between 0-20
 				
-				else if (attackRoll == 20) { System.out.println("Critical success!\nYou manage to pull off an extremely impressive hit for " + (player.baseDamage + 20) + "HP!"); 
+				else if (attackRoll == 20) { System.out.println("Critical success!\nYou masterfully land a heavy attack, causing critical damage!"); 
+				System.out.println("You attack for " + (player.baseDamage + 20) + "HP");
 				enemyObject.health = enemyObject.health - (player.baseDamage + 20); 
 				}//roll for 20 
 				
 				else if (attackRoll > 4 && attackRoll <= 7){ /*all these code blocks are for different attack roles, I thought about doing it as attackRole + baseDamage but decided against it as that would allow for very powerful attacks
 					Also debated doing something like (attackRoll - 5) + baseAttack but thought that wouldn't work great for numbers like 2 even with Math.abs()
 					I may revisit this idea later*/
+					System.out.println("You wildly swing your sword and just about pull off an additional hit!");
 					System.out.println("+3 Damage!");
 					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 3); //attackerHealth, attackerDamage, enemyHealth
 					enemyObject.health = newEnemyHealth; //performs the calculations for the attack
@@ -149,18 +153,21 @@ public class Encounters {
 				} //the logic for using a base attack on an enemy
 				
 				else if (attackRoll > 7 && attackRoll <= 12){
+					System.out.println("You precisely thrust your sword, managing to pierce through your enemy!");
 					System.out.println("+5 Damage!");
 					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 5); //attackerHealth, attackerDamage, enemyHealth
 					enemyObject.health = newEnemyHealth;
 					System.out.println("You attack for " + (player.baseDamage + 5) + "HP");
 				}
 				else if (attackRoll > 12 && attackRoll <= 16){
+					System.out.println("You cleverly position yourself close to the opponent allowing you to pull of multiple solid strikes!");
 					System.out.println("+7 Damage");
 					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 7); //attackerHealth, attackerDamage, enemyHealth
 					enemyObject.health = newEnemyHealth;
 					System.out.println("You attack for " + (player.baseDamage + 7) + "HP");
 				}
 				else if (attackRoll > 16 && attackRoll < 20){
+					System.out.println("You dodge and weave around the opponent, all while delivering a flurry of strong attacks!");
 					System.out.println("+10 Damage!");
 					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 10); //attackerHealth, attackerDamage, enemyHealth
 					enemyObject.health = newEnemyHealth;
