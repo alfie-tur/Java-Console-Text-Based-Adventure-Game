@@ -9,9 +9,16 @@ public class Encounters {
 		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
 		return rand;
 	}
-	static int randNum() { //random number from 1-100
+	static int randNum1To100() { //random number from 1-100
 		int range = 100;
 		int rand = (int)(Math.random() * range + 1);
+		return rand;
+	}
+	static int randNum1To10(){
+		int max = 10;
+		int min = 1;
+		int range = max - min;
+		int rand = (int)(Math.random() * range + min);
 		return rand;
 	}
 
@@ -32,10 +39,45 @@ public class Encounters {
 			
 			if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
 				
-				int randNum = randNum();
+				int randNum = randNum1To100();
 				
 				if (randNum >= 90) {
-					enemyEncounter("Goblin", 50, 3);
+					int oneInTen = randNum1To10();
+					switch(oneInTen) {
+					case 1:
+						enemyEncounter("Goblin", 50, 3);
+						break;
+					case 2:
+						enemyEncounter("Troll", 150, 7);
+						break;
+					case 3:
+						enemyEncounter("Skeleton", 70, 4);
+						break;
+					case 4:
+						enemyEncounter("Bandit", 100, 3);
+						break;
+					case 5:
+						enemyEncounter("Vampire", 130, 5);
+						break;
+					case 6:
+						enemyEncounter("Mage", 150, 5);
+						break;
+					case 7:
+						enemyEncounter("Imp", 35, 8);
+						break;
+					case 8:
+						enemyEncounter("Werewolf", 135, 8);
+						break;
+					case 9:
+						enemyEncounter("Assassin", 80, 6);
+						break;
+					case 10:
+						enemyEncounter("Daedra", 200, 7);
+						break;
+					default:
+						System.out.println("No enemies encountered");
+					}
+					
 				}
 				
 				else {
