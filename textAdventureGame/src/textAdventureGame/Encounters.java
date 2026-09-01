@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Encounters {
 	
+	static Player player = new Player();
+	
 	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
 		int range = 21;
 		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
@@ -24,7 +26,6 @@ public class Encounters {
 
 	public void decision() {
 		Scanner input = new Scanner(System.in);
-		Player player = new Player();
 		
 		boolean game = true;
 		
@@ -84,7 +85,7 @@ public class Encounters {
 					System.out.println("You walk for sometime and find nothing");
 					System.out.println();
 				}
-				
+				System.out.println("Your health after that encounter: " + player.health + "HP");
 			}
 			
 			else if (choice.contains("INV")) {
@@ -106,7 +107,6 @@ public class Encounters {
 	}
 	
 	public void enemyEncounter(String enemyName, int health, int baseDamage) {
-		Player player = new Player();
 		Enemy enemyObject = new Enemy(enemyName, health, baseDamage);
 		Scanner input = new Scanner(System.in);
 		
@@ -160,7 +160,7 @@ public class Encounters {
 					System.out.println("You attack for " + (player.baseDamage + 5) + "HP");
 				}
 				else if (attackRoll > 12 && attackRoll <= 16){
-					System.out.println("You cleverly position yourself close to the opponent allowing you to pull of multiple solid strikes!");
+					System.out.println("You cleverly position yourself close to the opponent allowing you to land multiple solid strikes!");
 					System.out.println("+7 Damage");
 					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 7); //attackerHealth, attackerDamage, enemyHealth
 					enemyObject.health = newEnemyHealth;
@@ -274,8 +274,7 @@ public class Encounters {
 				System.out.println("After the long fight you rest for a few hours to recover your strength...");
 			}
 		}
-		System.out.println(player.health);
-		
+
 	}
 	
 }
