@@ -7,6 +7,8 @@ public class Player extends Fighting {
 	int baseDamage = 3;
 	String currentLocation;
 	String[] itemBag = { "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot"};
+	int gold = 0;
+	boolean discoveredTown = false;
 	
 	public void characterCreation() {
 		Scanner input = new Scanner(System.in);

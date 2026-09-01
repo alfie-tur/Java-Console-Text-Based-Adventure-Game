@@ -16,6 +16,13 @@ public class Encounters {
 		int rand = (int)(Math.random() * range + 1);
 		return rand;
 	}
+	static int randNum1To50() {
+		int max = 50;
+		int min = 1;
+		int range = max - min;
+		int rand = (int)(Math.random() * range + min);
+		return rand;
+	}
 	static int randNum1To10(){
 		int max = 10;
 		int min = 1;
@@ -34,6 +41,7 @@ public class Encounters {
 			System.out.println("What would you like to do?");
 			System.out.println("Walk");
 			System.out.println("View Inventory");
+			if (player.discoveredTown == true) { System.out.println("Return to the town"); }
 			System.out.println("Quit Game");
 			
 			String choice = input.nextLine().toUpperCase();
@@ -81,6 +89,12 @@ public class Encounters {
 					
 				}
 				
+				else if (randNum < 20 && player.discoveredTown == false) {
+					System.out.println("You have discovered a town!");
+					System.out.println("You make note of it's location so that you can return later to purchase some supplies\n");
+					player.discoveredTown = true;
+				}
+				
 				else {
 					System.out.println("You walk for sometime and find nothing");
 					System.out.println();
@@ -94,6 +108,7 @@ public class Encounters {
 				for (String item : player.itemBag) {
 					System.out.println(item);
 				}
+				System.out.println("Gold: " + player.gold);
 				System.out.println();
 				
 			}
@@ -270,8 +285,10 @@ public class Encounters {
 			}
 			
 			if (enemyObject.health <= 0) {
+				int gold = randNum1To50();
 				System.out.println("You have won!");
-				System.out.println("After the long fight you rest for a few hours to recover your strength...");
+				System.out.println("You search the " + enemyObject.name + " and find " + gold + " gold!\n");
+				player.gold =+ gold;
 			}
 		}
 
