@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Encounters {
 	
 	static Player player = new Player();
+	static Scanner input = new Scanner(System.in);
 	
 	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
 		int range = 21;
@@ -32,7 +33,7 @@ public class Encounters {
 	}
 
 	public void decision() {
-		Scanner input = new Scanner(System.in);
+
 		player.characterCreation(); //will eventually be used to assign player stats
 		
 		boolean game = true;
@@ -48,7 +49,6 @@ public class Encounters {
 			String choice = input.nextLine().toUpperCase();
 			
 			if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
-				
 				int randNum = randNum1To100();
 				
 				if (randNum >= 90) {
@@ -127,7 +127,9 @@ public class Encounters {
 			else if (choice.equals("DEVLOPERMODE")) {
 				player.health = 10000;
 				player.gold = 10000;
-				System.out.println("Dev health: " + player.health + "\nDev Gold: " + player.gold);
+				player.baseDamage = 200;
+				player.discoveredTown = true;
+				System.out.println("Dev health: " + player.health + "\nDev Gold: " + player.gold + "\nDev damage: " + player.baseDamage + "\nAnd the town is discovered");
 			}
 			
 		}
@@ -136,7 +138,7 @@ public class Encounters {
 	
 	public void enemyEncounter(String enemyName, int health, int baseDamage) {
 		Enemy enemyObject = new Enemy(enemyName, health, baseDamage);
-		Scanner input = new Scanner(System.in);
+
 		
 		System.out.println("You have encountered a " + enemyObject.name);
 		
@@ -148,6 +150,7 @@ public class Encounters {
 			
 			System.out.println("Make your move");
 			System.out.println("Attack");
+			System.out.println("Inventory");
 			System.out.println("Run");
 			
 			String choice = input.nextLine().toUpperCase();
@@ -208,9 +211,14 @@ public class Encounters {
 				}
 				
 				break;
+				
+			case "INVENTORY":
+				combatItemBag();
+				break;
 			
 			case "RUN":
 				int fleeChance = diceRoll();
+				System.out.println("You rolled: " + fleeChance);
 				if (fleeChance == 20) { System.out.println("You successfully ran away"); break breakLabel; }
 				break;
 			
@@ -222,7 +230,7 @@ public class Encounters {
 			System.out.println();
 			System.out.println(enemyObject.name + " dice roll: " + enemyChoice);
 			
-			if(enemyObject.health <= 30 && enemyChoice > 17  && enemyObject.name.toUpperCase() != "TROLL" && enemyObject.name.toUpperCase() != "WEREWOLF" && enemyObject.name.toUpperCase() != "SKELETON"){ //enemy heals
+			if(enemyObject.health <= 30 && enemyChoice > 17  && !enemyObject.name.toUpperCase().equals("TROLL") && !enemyObject.name.toUpperCase().equals("WEREWOLF") && !enemyObject.name.toUpperCase().equals("SKELETON")){ //enemy heals
 				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
 				enemyObject.health += 20; // enemy heals
 				
@@ -301,14 +309,14 @@ public class Encounters {
 				int gold = randNum1To50();
 				System.out.println("You have won!");
 				System.out.println("You search the " + enemyObject.name + " and find " + gold + " gold!\n");
-				player.gold =+ gold;
+				player.gold = player.gold + gold;
 			}
 		}
 
 	}
 	
 	public void town() {
-		Scanner input = new Scanner(System.in);
+
 		boolean inTown = true;
 		while(inTown) {
 			System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
@@ -317,21 +325,21 @@ public class Encounters {
 			
 			if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
 				System.out.println("You have entered the inn");
-				System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the room keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
+				System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the inn keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
 				String room = input.nextLine().toUpperCase();
 				
 				if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
 					player.gold -= 5; //paying the room keeper
-					System.out.println("\nAfter paying the fee, the room keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
+					System.out.println("\nAfter paying the fee, the inn keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
 					player.health = 100; //this will need to be changed when your max health value changes
-					System.out.println("You leave the Inn");
+					System.out.println("You leave the inn");
 				}
 				else if (room.contains("RENT") || room.contains("YES") && player.gold < 5) {
-					System.out.println("\"Then get lost, you're wasting both our time\" said the room keeper");
+					System.out.println("\"Then get lost, you're wasting both our time\" said the inn keeper");
 					System.out.println("You leave the inn");
 				}
 				else {
-					System.out.println("\"Then what are you doing here? Stop wasting my time.\" said the room keeper");
+					System.out.println("\"Then what are you doing here? Stop wasting my time.\" said the inn keeper");
 					System.out.println("You leave the inn");
 				}
 			}
@@ -371,18 +379,22 @@ public class Encounters {
 		
 	}
 	
-	public void shopPurchaseMenu() {
-		Scanner input = new Scanner(System.in);
+	public void shopPurchaseMenu() { //this is the method that contains the code for choosing an item to purchase and it getting added to your inventory
+
 		boolean everythingYouNeed = false;
 		
 		while (everythingYouNeed == false) {
 			
 			System.out.println("What would you like to purchase \nOr will you leave:");
-			System.out.println(player.itemBag[0]);
-			System.out.println(player.itemBag[1]);
+			System.out.println("Your current bag contents:");
+			for (String item : player.itemBag) {
+				System.out.println(item);
+			}
+			System.out.println("Gold: " + player.gold);
+			
 			String shopPurchase = input.nextLine().toUpperCase();
 			
-			if (shopPurchase.contains("HEALTH") && player.gold >= 15) { //Don't forget to make them cost something!
+			if (shopPurchase.contains("HEALTH") && player.gold >= 15) {
 				
 				for (int i = 0; i < player.itemBag.length; i++) {
 					if (player.itemBag[i].equals("Empty Slot")) {
@@ -406,11 +418,43 @@ public class Encounters {
 		}
 	}
 	
+	public void combatItemBag() {
+		boolean doneInBag = false;
+		while(!doneInBag) {
+			System.out.println("Your Inventory: ");
+			for (String item : player.itemBag) {
+				System.out.println(item);
+			}
+			System.out.println("What would you like to use?");
+			System.out.println("If you are finished in your inventory type done");
+			String choice = input.nextLine().toUpperCase();
+			if (choice.contains("HEALTH")) {
+				for (int i = 0; i < player.itemBag.length; i++) {
+					if (player.itemBag[i].equals("Health Potion")) {
+						System.out.println("You consume 1 health potion");
+						player.health += 20;
+						player.itemBag[i] = "Empty Slot";
+						System.out.println("New health: " + player.health);
+						break;
+					}
+					else {
+						System.out.println("No health potion in inventory slot " + i);
+					}
+				}
+			}
+			else if (choice.contains("DONE")) {
+				System.out.println("Closing inventory");
+				doneInBag = true;
+			}
+		}
+		
+	}
+	
 	public void introMessages() {
 		int introChoice = randNum1To50()/10;
 		switch (introChoice) {
 		case 1:
-			System.out.println("You wake up, laying by a wide river passing right through the centre of a dense forest. \nBeside you is your trusty 5 slot bag, your empty coin pouch, and of course your sword.");
+			System.out.println("You wake up, laying beside a wide river passing right through the centre of a dense forest. \nBeside you is your trusty 5 slot bag, your empty coin pouch, and of course your sword.");
 			break;
 		case 2:
 			

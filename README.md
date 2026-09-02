@@ -3,7 +3,7 @@ This project is going to take inspiration from D&D 20 sided dice, which will be 
 
 Planned features are:
 ~~Purchase supplies will use Array for inventory~~,
-Item Bag for encounters,
+~~Item Bag for encounters~~,
 Set up camp using supplies (NO LONGER BEING IMPLEMENTED DUE TO TOWN REST SYSTEM),
 ~~Infinitely running code until you decide to end it~~,
 ~~Various enemies to randomly encounter~~,
