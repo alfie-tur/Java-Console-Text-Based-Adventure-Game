@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Encounters {
 	
-	static Player player = new Player();
-	static Scanner input = new Scanner(System.in);
+	static Player player = new Player(); //creates the object player of the Player class which is accessible everywhere in the class as it's a field of the class
+	static Scanner input = new Scanner(System.in); //object of Scanner class, accessible everywhere as it's a field of the class
 	
 	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
 		int range = 21;
@@ -17,14 +17,14 @@ public class Encounters {
 		int rand = (int)(Math.random() * range + 1);
 		return rand;
 	}
-	static int randNum1To50() {
+	static int randNum1To50() { //random number from 1-50
 		int max = 50;
 		int min = 1;
 		int range = max - min;
 		int rand = (int)(Math.random() * range + min);
 		return rand;
 	}
-	static int randNum1To10(){
+	static int randNum1To10(){ //random number from 1-10
 		int max = 10;
 		int min = 1;
 		int range = max - min;
@@ -32,21 +32,22 @@ public class Encounters {
 		return rand;
 	}
 
-	public void decision() {
+	public void decision() { //the only thing called in the main method of the Main class, all code needed passes through here in some way or other
 
-		player.characterCreation(); //will eventually be used to assign player stats
+		player.characterCreation(); //will eventually be used to assign player attributes
 		
 		boolean game = true;
 		
 		while (game) {
 		
+			//lists the players options to them
 			System.out.println("What would you like to do?");
 			System.out.println("Walk");
 			System.out.println("View Inventory");
 			if (player.discoveredTown == true) { System.out.println("Return to the town"); }
 			System.out.println("Quit Game");
 			
-			String choice = input.nextLine().toUpperCase();
+			String choice = input.nextLine().toUpperCase(); //takes the users input and stores it in the String variable choice
 			
 			if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
 				int randNum = randNum1To100();
