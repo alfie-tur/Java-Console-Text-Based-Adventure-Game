@@ -116,11 +116,18 @@ public class Encounters {
 				System.out.println();
 			}
 			else if (choice.contains("TOWN") && player.discoveredTown == true) {
+				System.out.println("You journey back to the town");
 				town();
 			}
 			
 			else if (choice.contains("Q")) {
 				game = false;
+			}
+			
+			else if (choice.equals("DEVLOPERMODE")) {
+				player.health = 10000;
+				player.gold = 10000;
+				System.out.println("Dev health: " + player.health + "\nDev Gold: " + player.gold);
 			}
 			
 		}
@@ -304,7 +311,6 @@ public class Encounters {
 		Scanner input = new Scanner(System.in);
 		boolean inTown = true;
 		while(inTown) {
-			System.out.println("You journey back to the town");
 			System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
 			System.out.println("Or would you like to leave?");
 			String choice = input.nextLine().toUpperCase();
@@ -336,33 +342,24 @@ public class Encounters {
 				System.out.println("\"Sorry 'bout tha. Me names Aedril, local shop keep 'n dwarf the folk round 'ere don't want me to forget that part. What's yer name?\"");
 				System.out.println("You reply, \"I'm " + player.name + ".\"");
 				System.out.println("\"Nice to meet ya! Take a look around and see if you can't find what you need.\"");
-				System.out.println("You take look around at Aedril's stock \n\nYou find: an abundance of health potions"); //more will be added later, likely weapons and armour
+				player.visitedTrader = true;
 				
-				boolean everythingYouNeed = false;
+				System.out.println("You take look around at Aedril's stock \n\nYou find: an abundance of health potions costing 15 gold each"); //more will be added later, likely weapons and armour
 				
-				while (everythingYouNeed == false) {
-					
-					System.out.println("\n\"Find anything you like?\" Said Aedril. \nWhat would you like to purchase:");
-					System.out.println(player.itemBag[0]);
-					System.out.println(player.itemBag[1]);
-					String shopPurchase = input.nextLine().toUpperCase();
-					
-					if (shopPurchase.contains("HEALTH")) { //Don't forget to make them cost something!
-						
-						for (int i = 0; i < player.itemBag.length; i++) {
-							if (player.itemBag[i].equals("Empty Slot")) {
-								player.itemBag[i] = "Health Potion";
-								break;
-							}
-							else {
-								System.out.println("You have no free inventory slot");
-							}
-							
-						}
-						
-					}
-					
-				}
+				System.out.println("Find what you were looking for?");
+				shopPurchaseMenu();
+				
+			}
+			else if (choice.contains("TRADER") && player.visitedTrader == true) {
+				System.out.println("\"A CUST... oh it's you again! Good to see ya " + player.name + ".\" said the familiar voice of Aedril");
+				System.out.println("You look around the shop looking at all of Aedril's wares\nYou find: an abundance of health potions costing 15 gold each");
+				
+				System.out.println(); //line for spacing out the console
+				
+				System.out.println("\"Now then lets get straight to business. What would you like?\"");
+				
+				shopPurchaseMenu();
+				
 			}
 			
 			else if(choice.contains("LEAVE")) {
@@ -372,6 +369,41 @@ public class Encounters {
 			
 		}
 		
+	}
+	
+	public void shopPurchaseMenu() {
+		Scanner input = new Scanner(System.in);
+		boolean everythingYouNeed = false;
+		
+		while (everythingYouNeed == false) {
+			
+			System.out.println("What would you like to purchase \nOr will you leave:");
+			System.out.println(player.itemBag[0]);
+			System.out.println(player.itemBag[1]);
+			String shopPurchase = input.nextLine().toUpperCase();
+			
+			if (shopPurchase.contains("HEALTH") && player.gold >= 15) { //Don't forget to make them cost something!
+				
+				for (int i = 0; i < player.itemBag.length; i++) {
+					if (player.itemBag[i].equals("Empty Slot")) {
+						player.itemBag[i] = "Health Potion";
+						player.gold -= 15;
+						break;
+					}
+					else {
+						System.out.println("You have no free inventory slot");
+					}
+					
+				}
+				
+			}
+			
+			else if(shopPurchase.contains("LEAVE")) {
+				System.out.println("\"Be seeing you, " + player.name + "!\" Shouted Aedril, as you walk out of the shop");
+				everythingYouNeed = true;
+			}
+			
+		}
 	}
 	
 	public void introMessages() {
