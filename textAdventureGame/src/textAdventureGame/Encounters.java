@@ -215,7 +215,7 @@ public class Encounters {
 			System.out.println();
 			System.out.println(enemyObject.name + " dice roll: " + enemyChoice);
 			
-			if(enemyObject.health <= 30 && enemyChoice > 17){ //enemy heals
+			if(enemyObject.health <= 30 && enemyChoice > 17  && enemyObject.name.toUpperCase() != "TROLL" && enemyObject.name.toUpperCase() != "WEREWOLF" && enemyObject.name.toUpperCase() != "SKELETON"){ //enemy heals
 				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
 				enemyObject.health += 20; // enemy heals
 				
@@ -302,24 +302,72 @@ public class Encounters {
 	
 	public void town() {
 		Scanner input = new Scanner(System.in);
-		System.out.println("You journey back to the town");
-		System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
-		System.out.println("Or would you like to leave?");
-		String choice = input.nextLine().toUpperCase();
-		
-		if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
-			System.out.println("You have entered the inn");
-			System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the room keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
-			String room = input.nextLine().toUpperCase();
+		boolean inTown = true;
+		while(inTown) {
+			System.out.println("You journey back to the town");
+			System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
+			System.out.println("Or would you like to leave?");
+			String choice = input.nextLine().toUpperCase();
 			
-			if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
-				System.out.println("\nAfter paying the fee, the room keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
-				System.out.println("You leave the Inn");
-				player.health = 100; //this will need to be changed when your max health value changes
-				player.gold -= 5;
+			if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
+				System.out.println("You have entered the inn");
+				System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the room keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
+				String room = input.nextLine().toUpperCase();
+				
+				if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
+					player.gold -= 5; //paying the room keeper
+					System.out.println("\nAfter paying the fee, the room keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
+					player.health = 100; //this will need to be changed when your max health value changes
+					System.out.println("You leave the Inn");
+				}
+				else if (room.contains("RENT") || room.contains("YES") && player.gold < 5) {
+					System.out.println("\"Then get lost, you're wasting both our time\" said the room keeper");
+					System.out.println("You leave the inn");
+				}
+				else {
+					System.out.println("\"Then what are you doing here? Stop wasting my time.\" said the room keeper");
+					System.out.println("You leave the inn");
+				}
 			}
-			else {
-				System.out.println("\"Then get lost, you're wasting both our time\" said the room keeper, so you decide to leave.");
+			
+			else if(choice.contains("TRADER") && player.visitedTrader == false) {
+				System.out.println("You enter the local trader to be greeted by a dwarf, though only 3 foot tall he had the face of a man who had lived at least 200 years");
+				System.out.println("\"A CUSTOMER!\" Screamed the dwarf, seemingly both excited and angry at the fact you walked in");
+				System.out.println("\"Sorry 'bout tha. Me names Aedril, local shop keep 'n dwarf the folk round 'ere don't want me to forget that part. What's yer name?\"");
+				System.out.println("You reply, \"I'm " + player.name + ".\"");
+				System.out.println("\"Nice to meet ya! Take a look around and see if you can't find what you need.\"");
+				System.out.println("You take look around at Aedril's stock \n\nYou find: an abundance of health potions"); //more will be added later, likely weapons and armour
+				
+				boolean everythingYouNeed = false;
+				
+				while (everythingYouNeed == false) {
+					
+					System.out.println("\n\"Find anything you like?\" Said Aedril. \nWhat would you like to purchase:");
+					System.out.println(player.itemBag[0]);
+					System.out.println(player.itemBag[1]);
+					String shopPurchase = input.nextLine().toUpperCase();
+					
+					if (shopPurchase.contains("HEALTH")) { //Don't forget to make them cost something!
+						
+						for (int i = 0; i < player.itemBag.length; i++) {
+							if (player.itemBag[i].equals("Empty Slot")) {
+								player.itemBag[i] = "Health Potion";
+								break;
+							}
+							else {
+								System.out.println("You have no free inventory slot");
+							}
+							
+						}
+						
+					}
+					
+				}
+			}
+			
+			else if(choice.contains("LEAVE")) {
+				System.out.println("You venture out of the town, continuing on your adventure");
+				inTown = false;
 			}
 			
 		}
