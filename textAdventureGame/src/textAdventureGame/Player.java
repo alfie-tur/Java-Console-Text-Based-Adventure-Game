@@ -9,6 +9,7 @@ public class Player extends Fighting {
 	String[] itemBag = { "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot"};
 	int gold = 0;
 	boolean discoveredTown = false;
+	int manaPool = 100;
 	
 	public void characterCreation() {
 		Scanner input = new Scanner(System.in);

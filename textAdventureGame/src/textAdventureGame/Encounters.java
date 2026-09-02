@@ -33,6 +33,7 @@ public class Encounters {
 
 	public void decision() {
 		Scanner input = new Scanner(System.in);
+		player.characterCreation(); //will eventually be used to assign player stats
 		
 		boolean game = true;
 		
@@ -86,6 +87,9 @@ public class Encounters {
 					default:
 						System.out.println("No enemies encountered");
 					}
+					//potentially genius idea to spice up combat! create a method which returns random combat dialogue such as "you swing your sword fast" and have that after every attack
+					//I would do this as well as it potentially helps keep code tidy
+					//... OK I admit "genius" is probably a bit of a stretch, but it seems like a good idea
 					
 				}
 				
@@ -110,7 +114,9 @@ public class Encounters {
 				}
 				System.out.println("Gold: " + player.gold);
 				System.out.println();
-				
+			}
+			else if (choice.contains("TOWN") && player.discoveredTown == true) {
+				town();
 			}
 			
 			else if (choice.contains("Q")) {
@@ -292,6 +298,53 @@ public class Encounters {
 			}
 		}
 
+	}
+	
+	public void town() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("You journey back to the town");
+		System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
+		System.out.println("Or would you like to leave?");
+		String choice = input.nextLine().toUpperCase();
+		
+		if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
+			System.out.println("You have entered the inn");
+			System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the room keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
+			String room = input.nextLine().toUpperCase();
+			
+			if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
+				System.out.println("\nAfter paying the fee, the room keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
+				System.out.println("You leave the Inn");
+				player.health = 100; //this will need to be changed when your max health value changes
+				player.gold -= 5;
+			}
+			else {
+				System.out.println("\"Then get lost, you're wasting both our time\" said the room keeper, so you decide to leave.");
+			}
+			
+		}
+		
+	}
+	
+	public void introMessages() {
+		int introChoice = randNum1To50()/10;
+		switch (introChoice) {
+		case 1:
+			System.out.println("You wake up, laying by a wide river passing right through the centre of a dense forest. \nBeside you is your trusty 5 slot bag, your empty coin pouch, and of course your sword.");
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		}
 	}
 	
 }
