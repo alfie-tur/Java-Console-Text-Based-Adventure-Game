@@ -158,58 +158,8 @@ public class Encounters {
 			switch (choice) {
 			
 			case "ATTACK":
-				System.out.println("Attack Roll!");
-				int attackRoll = diceRoll();
-				System.out.println("You rolled: " + attackRoll);
 				
-				if (attackRoll == 0) { 
-					int damageSelf = diceRoll();
-					System.out.println("Critical fail!\nYou trip when attempting to go in for an attack, causing you to fall into your own blade! ");
-					System.out.println("You damage yourself for " + damageSelf + "HP");
-					player.health = player.health - damageSelf;
-					} //roll for 0 //damage to self between 0-20
-				
-				else if (attackRoll == 20) { System.out.println("Critical success!\nYou masterfully land a heavy attack, causing critical damage!"); 
-				System.out.println("You attack for " + (player.baseDamage + 20) + "HP");
-				enemyObject.health = enemyObject.health - (player.baseDamage + 20); 
-				}//roll for 20 
-				
-				else if (attackRoll > 4 && attackRoll <= 7){ /*all these code blocks are for different attack roles, I thought about doing it as attackRole + baseDamage but decided against it as that would allow for very powerful attacks
-					Also debated doing something like (attackRoll - 5) + baseAttack but thought that wouldn't work great for numbers like 2 even with Math.abs()
-					I may revisit this idea later*/
-					System.out.println("You wildly swing your sword and just about pull off an additional hit!");
-					System.out.println("+3 Damage!");
-					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 3); //attackerHealth, attackerDamage, enemyHealth
-					enemyObject.health = newEnemyHealth; //performs the calculations for the attack
-					System.out.println("You attack for " + (player.baseDamage + 3) + "HP");
-				} //the logic for using a base attack on an enemy
-				
-				else if (attackRoll > 7 && attackRoll <= 12){
-					System.out.println("You precisely thrust your sword, managing to pierce through your enemy!");
-					System.out.println("+5 Damage!");
-					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 5); //attackerHealth, attackerDamage, enemyHealth
-					enemyObject.health = newEnemyHealth;
-					System.out.println("You attack for " + (player.baseDamage + 5) + "HP");
-				}
-				else if (attackRoll > 12 && attackRoll <= 16){
-					System.out.println("You cleverly position yourself close to the opponent allowing you to land multiple solid strikes!");
-					System.out.println("+7 Damage");
-					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 7); //attackerHealth, attackerDamage, enemyHealth
-					enemyObject.health = newEnemyHealth;
-					System.out.println("You attack for " + (player.baseDamage + 7) + "HP");
-				}
-				else if (attackRoll > 16 && attackRoll < 20){
-					System.out.println("You dodge and weave around the opponent, all while delivering a flurry of strong attacks!");
-					System.out.println("+10 Damage!");
-					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health - 10); //attackerHealth, attackerDamage, enemyHealth
-					enemyObject.health = newEnemyHealth;
-					System.out.println("You attack for " + (player.baseDamage + 10) + "HP");
-				}
-				else {
-					int newEnemyHealth = player.baseAttack(player.health, player.baseDamage, enemyObject.health); //attackerHealth, attackerDamage, enemyHealth
-					enemyObject.health = newEnemyHealth;
-					System.out.println("You attack for " + player.baseDamage + "HP");
-				}
+				enemyObject.health = player.baseAttack(player.health, player.baseDamage, enemyObject.health);
 				
 				break;
 				
@@ -227,6 +177,10 @@ public class Encounters {
 				System.out.println("Not a valid option, you forfeit your turn. That'll teach you!");
 			}
 			
+			if (player.hasCompanion1 == true) {
+				
+			}
+			
 			int enemyChoice = diceRoll();
 			System.out.println();
 			System.out.println(enemyObject.name + " dice roll: " + enemyChoice);
@@ -242,65 +196,10 @@ public class Encounters {
 			
 			else { //enemy attack: these code blocks are all the goblin attacks with different attack bonuses based on the dice roll
 				//I did think about just doing one code block as the dice roll added onto the damage but I didn't like that idea, although it likely would have been better for the code
-				if (enemyChoice > 4 && enemyChoice <= 7) {
-					System.out.println("+3 Damage!");
-					
-					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 3;
-					player.health = newPlayerHealth; //calculation for enemies attack
-					
-					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 3) + "HP");
-					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					//writing to the console the amount attacking for
-					
-					System.out.println();//line to spread out the console
-				}
-				else if (enemyChoice > 7 && enemyChoice <= 12) {
-					System.out.println("+5 Damage!");
-					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 5;
-					player.health = newPlayerHealth;
-					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 5) + "HP");
-					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					System.out.println();//just a line to spread out the console
-				}
-				else if (enemyChoice > 12 && enemyChoice <= 16) {
-					System.out.println("+7 Damage!");
-					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 7;
-					player.health = newPlayerHealth;
-					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 7) + "HP");
-					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					System.out.println();//just a line to spread out the console
-				}
-				else if (enemyChoice > 16 && enemyChoice < 20) {
-					System.out.println("+10 Damage!");
-					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health) - 10;
-					player.health = newPlayerHealth;
-					System.out.println(enemyObject.name + " attacks for " + (enemyObject.baseDamage + 10) + "HP");
-					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					System.out.println();//just a line to spread out the console
-				}
-				else {
-					int newPlayerHealth = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health);
-					player.health = newPlayerHealth;
-					System.out.println(enemyObject.name + " attacks for " + enemyObject.baseDamage + "HP");
-					
-					System.out.println(); //line to spread out console
-					
-					System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
-					System.out.println();//just a line to spread out the console
-				}
+				player.health = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health);
 			}
+			System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
+			
 			if (player.health < 0) {
 				System.out.println("You died, tough luck");
 				System.exit(0);
@@ -326,7 +225,13 @@ public class Encounters {
 			
 			if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
 				System.out.println("You have entered the inn");
-				System.out.println("Inside there is a warm fire, lighting up the room.\nOne of the inn keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
+				System.out.println("Inside there is a warm fire, lighting up the room.");
+				
+				if (player.hasCompanion1 == false && player.hasCompanion2 == false && player.hasCompanion3 == false) {
+					selectCompanion();
+				}
+				
+				System.out.println("\nOne of the inn keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
 				String room = input.nextLine().toUpperCase();
 				
 				if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
@@ -430,10 +335,12 @@ public class Encounters {
 			switch (hireCompanion){
 			case "1":
 				System.out.println("You hire the first companion with the heavy armour");
+				player.gold = player.gold - 200;
 				player.hasCompanion1 = true;
 				break;
 			case "2":
 				System.out.println("You hire the second companion with the light armour");
+				player.gold = player.gold - 150;
 				player.hasCompanion2 = true;
 				break;
 			default:

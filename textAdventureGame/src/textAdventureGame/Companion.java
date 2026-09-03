@@ -1,6 +1,6 @@
 package textAdventureGame;
 
-public class Companion {
+public class Companion extends Fighting{
 	String name;
 	int health;
 	int baseDamage;
