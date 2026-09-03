@@ -7,7 +7,9 @@ public class Player extends Fighting { //inherits from Fighting
 	String name; //players name
 	int health = 100; //players health
 	int baseDamage = 3; //players baseDamage, may be renamed to strength and allow the player to assign a number to it at the start using skill points
-	boolean hasCompanion = false; //a boolean to determine whether or not the player has a companion or not. Currently not in use
+	boolean hasCompanion1 = false; //a boolean to determine whether or not the player has the first companion or not.
+	boolean hasCompanion2 = false;
+	boolean hasCompanion3 = false;
 	String[] itemBag = { "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot"}; //an array for the players inventory
 	int gold = 0; //the players money
 	boolean discoveredTown = false; //boolean for if the player has discovered the town or not, when true they can return to it if not in combat 

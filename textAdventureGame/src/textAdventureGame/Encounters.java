@@ -419,6 +419,29 @@ public class Encounters {
 		}
 	}
 	
+	public void selectCompanion() {
+		System.out.println("Sat at the bar you see two fighters sat down, one in a heavy armour made of what looks like a dark steel. The other in a lighter armour of mostly chainmail and some plate coverings");
+		System.out.println("Would you like to talk to them?");
+		String choice = input.nextLine().toUpperCase();
+		if (choice.contains("Y")) {
+			System.out.println("You go over to them, the first says he will cost 200 gold to hire, the other says he will cost 150 gold to hire");
+			System.out.println("Which would you like to hire? 1 or 2");
+			String hireCompanion = input.nextLine();
+			switch (hireCompanion){
+			case "1":
+				System.out.println("You hire the first companion with the heavy armour");
+				player.hasCompanion1 = true;
+				break;
+			case "2":
+				System.out.println("You hire the second companion with the light armour");
+				player.hasCompanion2 = true;
+				break;
+			default:
+				System.out.println("You hire neither companion and leave the bar");
+			}
+		}
+	}
+	
 	public void combatItemBag() {
 		boolean doneInBag = false;
 		while(!doneInBag) {
