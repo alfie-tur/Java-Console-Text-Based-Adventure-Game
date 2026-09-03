@@ -2,24 +2,17 @@ package textAdventureGame;
 
 public class Fighting {
 	
-	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
-		int range = 21;
-		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
+	static int diceRoll() { //whenever this is called it returns a random number between 1 and 20
+		int range = 20;
+		int rand = (int)(Math.random() * range + 1); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
 		return rand;
 	}
 	
-	public int baseAttack(int health, int damage, int enemyHealth) {
+	public int baseAttack(String yourName, int health, int damage, int enemyHealth) {
 		int attackRoll = diceRoll();
-		System.out.println("Rolled: " + attackRoll);
+		System.out.println(yourName + " Rolled: " + attackRoll);
 		
-		if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
-			int damageSelf = diceRoll();
-			//System.out.println("Critical fail!\nYou trip when attempting to go in for an attack, causing you to fall into your own blade! ");
-			System.out.println("You damage yourself for " + damageSelf + "HP");
-			return health - damageSelf;
-			} //roll for 0 //damage to self between 0-20
-		
-		else if (attackRoll == 20) { 
+		if (attackRoll == 20) { 
 		//System.out.println("Critical success!\nYou masterfully land a heavy attack, causing critical damage!"); 
 		System.out.println("Attack for " + (damage + 20) + "HP");
 		return enemyHealth - (damage + 20); 

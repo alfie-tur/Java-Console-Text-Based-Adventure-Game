@@ -159,7 +159,17 @@ public class Encounters {
 			
 			case "ATTACK":
 				
-				enemyObject.health = player.baseAttack(player.health, player.baseDamage, enemyObject.health);
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nYou trip when attempting to go in for an attack, causing you to fall into your own blade! ");
+					System.out.println("You damage yourself for " + damageSelf + "HP");
+					player.health = player.health - damageSelf;
+				}
+				
+				else {
+					enemyObject.health = player.baseAttack(player.name, player.health, player.baseDamage, enemyObject.health);
+				}
 				
 				break;
 				
@@ -183,7 +193,7 @@ public class Encounters {
 			
 			int enemyChoice = diceRoll();
 			System.out.println();
-			System.out.println(enemyObject.name + " dice roll: " + enemyChoice);
+			//System.out.println(enemyObject.name + "heal dice roll: " + enemyChoice); //this outputs to the console the diceroll value to see if the enemy will heal or not
 			
 			if(enemyObject.health <= 30 && enemyChoice > 17  && !enemyObject.name.toUpperCase().equals("TROLL") && !enemyObject.name.toUpperCase().equals("WEREWOLF") && !enemyObject.name.toUpperCase().equals("SKELETON")){ //enemy heals
 				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
@@ -196,8 +206,19 @@ public class Encounters {
 			
 			else { //enemy attack: these code blocks are all the goblin attacks with different attack bonuses based on the dice roll
 				//I did think about just doing one code block as the dice roll added onto the damage but I didn't like that idea, although it likely would have been better for the code
-				player.health = enemyObject.baseAttack(enemyObject.health, enemyObject.baseDamage, player.health);
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
+				}
 			}
+			System.out.println();
 			System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
 			
 			if (player.health < 0) {
@@ -260,7 +281,7 @@ public class Encounters {
 				
 				System.out.println("You take look around at Aedril's stock \n\nYou find: an abundance of health potions costing 15 gold each"); //more will be added later, likely weapons and armour
 				
-				System.out.println("Find what you were looking for?");
+				System.out.println("\"Find what you were looking for?\" Said Aedril\n");
 				shopPurchaseMenu();
 				
 			}
@@ -309,9 +330,9 @@ public class Encounters {
 						break;
 					}
 					else {
-						System.out.println("You have no free inventory slot");
+						System.out.println("Your bag is full");
 					}
-					
+					System.out.println("Slot " + (i + 1) + " full");
 				}
 				
 			}
