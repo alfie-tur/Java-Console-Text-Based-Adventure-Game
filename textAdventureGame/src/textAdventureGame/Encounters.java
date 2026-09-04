@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class Encounters {
 	
 	static Player player = new Player(); //creates the object player of the Player class which is accessible everywhere in the class as it's a field of the class
+	static Companion companion1 = new Companion("Arturio", 150, 5, 50); //Name, health, damage, mana pool
+	static Companion companion2 = new Companion("Valen", 100, 4, 100);
+	static Companion companion3 = new Companion("Illia", 100, 3, 300);
 	static Scanner input = new Scanner(System.in); //object of Scanner class, accessible everywhere as it's a field of the class
 	
 	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
@@ -187,8 +190,15 @@ public class Encounters {
 				System.out.println("Not a valid option, you forfeit your turn. That'll teach you!");
 			}
 			
-			if (player.hasCompanion1 == true) {
-				
+			//3 separate if statements to check if the player has any companions, I use 3 ifs instead of else ifs as I may make it so that you can have all 3 companions in the future
+			if (player.hasCompanion1) {
+				companion1.baseAttack(companion1.name, companion1.health, companion1.baseDamage, enemyObject.health);
+			}
+			if (player.hasCompanion2) {
+				companion2.baseAttack(companion2.name, companion2.health, companion2.baseDamage, enemyObject.health);
+			}
+			if (player.hasCompanion3) {
+				companion3.baseAttack(companion3.name, companion3.health, companion3.baseDamage, enemyObject.health);
 			}
 			
 			if (enemyObject.health <= 0) {
@@ -388,6 +398,9 @@ public class Encounters {
 						System.out.println("You consume 1 health potion");
 						player.health += 20;
 						player.itemBag[i] = "Empty Slot";
+						if (player.health > player.maxHealth) {
+							player.health = player.maxHealth;
+						}
 						System.out.println("New health: " + player.health);
 						break;
 					}
