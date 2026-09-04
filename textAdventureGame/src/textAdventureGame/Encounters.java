@@ -191,6 +191,14 @@ public class Encounters {
 				
 			}
 			
+			if (enemyObject.health <= 0) {
+				int gold = randNum1To50();
+				System.out.println("You have won!");
+				System.out.println("You search the " + enemyObject.name + " and find " + gold + " gold!\n");
+				player.gold = player.gold + gold;
+				break breakLabel;
+			}
+			
 			int enemyChoice = diceRoll();
 			System.out.println();
 			//System.out.println(enemyObject.name + "heal dice roll: " + enemyChoice); //this outputs to the console the diceroll value to see if the enemy will heal or not
@@ -226,12 +234,6 @@ public class Encounters {
 				System.exit(0);
 			}
 			
-			if (enemyObject.health <= 0) {
-				int gold = randNum1To50();
-				System.out.println("You have won!");
-				System.out.println("You search the " + enemyObject.name + " and find " + gold + " gold!\n");
-				player.gold = player.gold + gold;
-			}
 		}
 
 	}
