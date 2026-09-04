@@ -48,10 +48,11 @@ public class Fighting {
 			return enemyHealth - damage - 10;
 		}
 		
-		else {
+		else { //attack when dice roll adds no bonus
 			System.out.println("Attack for " + damage + "HP");
 			return enemyHealth - damage;
 		}
 		
 	}
+	
 }
