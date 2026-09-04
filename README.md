@@ -8,7 +8,7 @@ Planned features are:
 ~~Item Bag for encounters~~,
 ~~Infinitely running code until you decide to end it~~,
 ~~Various enemies to randomly encounter~~,
-Companion system where you can have a companion to assist you,
+~~Companion system where you can have a companion to assist you~~,
 Multiple enemies in one encounter
 
 Crossed out planned features are ones that have been added!
