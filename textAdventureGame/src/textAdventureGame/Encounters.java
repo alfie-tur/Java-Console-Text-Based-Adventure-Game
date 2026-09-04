@@ -211,9 +211,11 @@ public class Encounters {
 			}
 			
 			int enemyChoice = diceRoll();
+			int randNum = randNum1To100();
 			System.out.println();
 			//System.out.println(enemyObject.name + "heal dice roll: " + enemyChoice); //this outputs to the console the diceroll value to see if the enemy will heal or not
 			
+			//if for enemy healing:
 			if(enemyObject.health <= 30 && enemyChoice > 17  && !enemyObject.name.toUpperCase().equals("TROLL") && !enemyObject.name.toUpperCase().equals("WEREWOLF") && !enemyObject.name.toUpperCase().equals("SKELETON")){ //enemy heals
 				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
 				enemyObject.health += 20; // enemy heals
@@ -223,7 +225,49 @@ public class Encounters {
 				System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health); //writing new health to the console
 			}
 			
-			else { //enemy attack: these code blocks are all the goblin attacks with different attack bonuses based on the dice roll
+			if (randNum <= 16 && player.hasCompanion1 == true) { //if for enemy doing damage to companion1 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion1.name);
+					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
+				}
+			}
+			else if (randNum > 16 && randNum <= 32 && player.hasCompanion2 == true) { //else if for enemy doing damage to companion2 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion2.name);
+					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
+				}
+			}
+			else if (randNum > 32 && randNum <= 48 && player.hasCompanion3 == true) { //else if for enemy doing damage to companion3 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion3.name);
+					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
+				}
+			}
+			else { //else for enemy attacking the player roughly 1/2th of chance if you have all 3 companions, if you have none this is 100% of the time 
 				//I did think about just doing one code block as the dice roll added onto the damage but I didn't like that idea, although it likely would have been better for the code
 				int attackRoll = diceRoll();
 				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
@@ -234,11 +278,16 @@ public class Encounters {
 				}
 				
 				else {
+					System.out.println(enemyObject.name + " attacks you!");
 					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
 				}
 			}
+			
 			System.out.println();
 			System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
+			if (player.hasCompanion1 == true) { System.out.println(companion1.name + " health: " + companion1.health); }
+			if (player.hasCompanion2 == true) { System.out.println(companion2.name + " health: " + companion2.health); }
+			if (player.hasCompanion3 == true) { System.out.println(companion3.name + " health: " + companion3.health); }
 			
 			if (player.health < 0) {
 				System.out.println("You died, tough luck");
