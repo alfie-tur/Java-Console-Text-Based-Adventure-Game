@@ -131,7 +131,7 @@ public class Encounters {
 			else if (choice.equals("DEVLOPERMODE")) {
 				player.health = 10000;
 				player.gold = 10000;
-				player.baseDamage = 200;
+				player.baseDamage = 10;
 				player.discoveredTown = true;
 				System.out.println("Dev health: " + player.health + "\nDev Gold: " + player.gold + "\nDev damage: " + player.baseDamage + "\nAnd the town is discovered");
 			}
@@ -190,15 +190,16 @@ public class Encounters {
 				System.out.println("Not a valid option, you forfeit your turn. That'll teach you!");
 			}
 			
+			System.out.println();
 			//3 separate if statements to check if the player has any companions, I use 3 ifs instead of else ifs as I may make it so that you can have all 3 companions in the future
 			if (player.hasCompanion1) {
-				companion1.baseAttack(companion1.name, companion1.health, companion1.baseDamage, enemyObject.health);
+				enemyObject.health = companion1.baseAttack(companion1.name, companion1.health, companion1.baseDamage, enemyObject.health);
 			}
 			if (player.hasCompanion2) {
-				companion2.baseAttack(companion2.name, companion2.health, companion2.baseDamage, enemyObject.health);
+				enemyObject.health = companion2.baseAttack(companion2.name, companion2.health, companion2.baseDamage, enemyObject.health);
 			}
 			if (player.hasCompanion3) {
-				companion3.baseAttack(companion3.name, companion3.health, companion3.baseDamage, enemyObject.health);
+				enemyObject.health = companion3.baseAttack(companion3.name, companion3.health, companion3.baseDamage, enemyObject.health);
 			}
 			
 			if (enemyObject.health <= 0) {
@@ -270,7 +271,7 @@ public class Encounters {
 				if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
 					player.gold -= 5; //paying the room keeper
 					System.out.println("\nAfter paying the fee, the inn keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
-					player.health = 100; //this will need to be changed when your max health value changes
+					player.health = player.maxHealth; //this will need to be changed when your max health value changes
 					System.out.println("You leave the inn");
 				}
 				else if (room.contains("RENT") || room.contains("YES") && player.gold < 5) {
@@ -367,12 +368,12 @@ public class Encounters {
 			String hireCompanion = input.nextLine();
 			switch (hireCompanion){
 			case "1":
-				System.out.println("You hire the first companion with the heavy armour");
+				System.out.println("You hire " + companion1.name + " with the heavy armour");
 				player.gold = player.gold - 200;
 				player.hasCompanion1 = true;
 				break;
 			case "2":
-				System.out.println("You hire the second companion with the light armour");
+				System.out.println("You hire " + companion2.name + " with the light armour");
 				player.gold = player.gold - 150;
 				player.hasCompanion2 = true;
 				break;
