@@ -153,8 +153,21 @@ public class Encounters {
 	public void enemyEncounter(String enemyName, int health, int baseDamage) {
 		Enemy enemyObject = new Enemy(enemyName, health, baseDamage);
 
+		int multipleEnemies = diceRoll();
 		
-		System.out.println("You have encountered a " + enemyObject.name);
+		if (multipleEnemies > 16) {
+			enemyObject.multiple = true;
+			enemyObject.enemyNum = 3;
+			System.out.println("You have encountered 3 " + enemyObject.name + "s");
+		}
+		else if (multipleEnemies > 11 && multipleEnemies <= 16) {
+			enemyObject.multiple = true;
+			enemyObject.enemyNum = 2;
+			System.out.println("You have encountered 2 " + enemyObject.name + "s");
+		}
+		else {
+			System.out.println("You have encountered a " + enemyObject.name);
+		}
 		
 		System.out.println("Your current health: " + player.health);
 		System.out.println(enemyObject.name + " health: " + enemyObject.health);

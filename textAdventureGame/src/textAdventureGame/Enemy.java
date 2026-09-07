@@ -4,6 +4,8 @@ public class Enemy extends Fighting {
 	String name;
 	int health;
 	int baseDamage;
+	boolean multiple = false;
+	int enemyNum = 1;
 	
 	public Enemy(String name, int health, int baseDamage) {
 		this.name = name;
