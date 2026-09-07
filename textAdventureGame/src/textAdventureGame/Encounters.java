@@ -275,7 +275,7 @@ public class Encounters {
 					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
 					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
 				}
-				else if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
 					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
 					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
 					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
@@ -298,13 +298,13 @@ public class Encounters {
 				}
 				
 				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + companion2.name);
 					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
 				}
 				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + companion2.name);
 					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
-					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion2.name);
 					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
 				}
 			}
@@ -324,13 +324,13 @@ public class Encounters {
 				}
 				
 				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + companion3.name);
 					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
 				}
 				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + companion3.name);
 					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
-					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion3.name);
 					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
 				}
 			}
@@ -351,13 +351,13 @@ public class Encounters {
 				}
 				
 				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + player.name);
 					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
 				}
 				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
-					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The second " + enemyObject.name + " attacks " + player.name);
 					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
-					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
+					System.out.println("The third " + enemyObject.name + " attacks " + player.name);
 					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
 				}
 			}
