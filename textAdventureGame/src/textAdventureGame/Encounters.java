@@ -270,6 +270,17 @@ public class Encounters {
 					System.out.println(enemyObject.name + " attacks " + companion1.name);
 					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
 				}
+				
+				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
+				}
+				else if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
+					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
+				}
 			}
 			
 			else if (randNum > 16 && randNum <= 32 && player.hasCompanion2 == true) { //else if for enemy doing damage to companion2 has roughly 1/6th of chance
@@ -283,6 +294,17 @@ public class Encounters {
 				
 				else {
 					System.out.println(enemyObject.name + " attacks " + companion2.name);
+					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
+				}
+				
+				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
+				}
+				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
 					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
 				}
 			}
@@ -300,6 +322,17 @@ public class Encounters {
 					System.out.println(enemyObject.name + " attacks " + companion3.name);
 					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
 				}
+				
+				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
+				}
+				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
+					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
+				}
 			}
 			
 			else { //else for enemy attacking the player roughly 1/2th of chance if you have all 3 companions, if you have none this is 100% of the time 
@@ -314,6 +347,17 @@ public class Encounters {
 				
 				else {
 					System.out.println(enemyObject.name + " attacks you!");
+					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
+				}
+				
+				if (enemyObject.multiple == true && enemyObject.enemyNum == 2 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
+				}
+				else if (enemyObject.multiple == true && enemyObject.enemyNum == 3 && attackRoll > 0) {
+					System.out.println("The second " + enemyObject.name + " attacks " + companion1.name);
+					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
+					System.out.println("The third " + enemyObject.name + " attacks " + companion1.name);
 					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
 				}
 			}
