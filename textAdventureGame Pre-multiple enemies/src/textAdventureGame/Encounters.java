@@ -1,0 +1,558 @@
+package textAdventureGame;
+
+import java.util.Scanner;
+
+public class Encounters {
+	
+	
+	//Creating objects of characters:
+	static Player player = new Player(); //creates the object player of the Player class which is accessible everywhere in the class as it's a field of the class
+	static Companion companion1 = new Companion("Arturio", 150, 5, 50); //Name, health, damage, mana pool
+	static Companion companion2 = new Companion("Valen", 100, 4, 100);
+	static Companion companion3 = new Companion("Illia", 100, 3, 300);
+	
+	static Scanner input = new Scanner(System.in); //object of Scanner class for user input, accessible everywhere as it's a field of the class
+	
+	
+	static int diceRoll() { //whenever this is called it returns a random number between 0 and 20
+		int range = 21;
+		int rand = (int)(Math.random() * range); //casting a double to an int thus rounding. number between 0 and 1 multiplied by 21, will never be 21 as the 1 is exclusive
+		return rand;
+	}
+	
+	//random number methods:
+	static int randNum1To100() { //random number from 1-100
+		int range = 100;
+		int rand = (int)(Math.random() * range + 1);
+		return rand;
+	}
+	static int randNum1To50() { //random number from 1-50
+		int max = 50;
+		int min = 1;
+		int range = max - min;
+		int rand = (int)(Math.random() * range + min);
+		return rand;
+	}
+	static int randNum1To10(){ //random number from 1-10
+		int max = 10;
+		int min = 1;
+		int range = max - min;
+		int rand = (int)(Math.random() * range + min);
+		return rand;
+	}
+
+	
+	public void decision() { //the only thing called in the main method of the Main class, all code needed passes through here in some way or other
+
+		player.characterCreation(); //will eventually be used to assign player attributes
+		
+		
+		boolean game = true;
+		
+		while (game) {
+		
+			//lists the players options to them
+			System.out.println("What would you like to do?");
+			System.out.println("Walk");
+			System.out.println("View Inventory");
+			if (player.discoveredTown == true) { System.out.println("Return to the town"); }
+			System.out.println("Quit Game");
+			
+			
+			String choice = input.nextLine().toUpperCase(); //takes the users input and stores it in the String variable choice
+			
+			if (choice.equals("WALK")) { //to make this a random encounter I will eventually make it so it needs to be if choice.equals("WALK") && randomNumber == 1
+				int randNum = randNum1To100();
+				
+				if (randNum >= 90) {
+					int oneInTen = randNum1To10();
+					switch(oneInTen) {
+					case 1:
+						enemyEncounter("Goblin", 50, 3);
+						break;
+					case 2:
+						enemyEncounter("Troll", 150, 7);
+						break;
+					case 3:
+						enemyEncounter("Skeleton", 70, 4);
+						break;
+					case 4:
+						enemyEncounter("Bandit", 100, 3);
+						break;
+					case 5:
+						enemyEncounter("Vampire", 130, 5);
+						break;
+					case 6:
+						enemyEncounter("Mage", 150, 5);
+						break;
+					case 7:
+						enemyEncounter("Imp", 35, 8);
+						break;
+					case 8:
+						enemyEncounter("Werewolf", 135, 8);
+						break;
+					case 9:
+						enemyEncounter("Assassin", 80, 6);
+						break;
+					case 10:
+						enemyEncounter("Daedra", 200, 7);
+						break;
+					default:
+						System.out.println("No enemies encountered");
+					}					
+				}
+				
+				else if (randNum < 20 && player.discoveredTown == false) {
+					System.out.println("You have discovered a town!");
+					System.out.println("You make note of it's location so that you can return later to purchase some supplies\n");
+					player.discoveredTown = true;
+				}
+				
+				else {
+					System.out.println("You walk for sometime and find nothing");
+					System.out.println();
+				}
+				System.out.println("Your health after that encounter: " + player.health + "HP");
+			}
+			
+			
+			else if (choice.contains("INV")) {
+				
+				System.out.println("Bag contents: ");
+				for (String item : player.itemBag) {
+					System.out.println(item);
+				}
+				
+				System.out.println("Gold: " + player.gold);
+				
+				System.out.println();
+				
+			}
+			else if (choice.contains("TOWN") && player.discoveredTown == true) {
+				System.out.println("You journey back to the town");
+				town();
+			}
+			
+			else if (choice.contains("Q")) {
+				game = false;
+			}
+			
+			else if (choice.equals("DEVLOPERMODE")) {
+				player.health = 10000;
+				player.gold = 10000;
+				player.baseDamage = 10;
+				player.discoveredTown = true;
+				System.out.println("Dev health: " + player.health + "\nDev Gold: " + player.gold + "\nDev damage: " + player.baseDamage + "\nAnd the town is discovered");
+			}
+			
+		}
+		
+	}
+	
+	
+	public void enemyEncounter(String enemyName, int health, int baseDamage) {
+		Enemy enemyObject = new Enemy(enemyName, health, baseDamage);
+
+		
+		System.out.println("You have encountered a " + enemyObject.name);
+		
+		System.out.println("Your current health: " + player.health);
+		System.out.println(enemyObject.name + " health: " + enemyObject.health);
+		
+		breakLabel:
+		while(player.health > 0 && enemyObject.health > 0) {
+			
+			System.out.println("Make your move:");
+			System.out.println("Attack");
+			System.out.println("Inventory");
+			System.out.println("Run");
+			
+			String choice = input.nextLine().toUpperCase();
+			switch (choice) {
+			
+			case "ATTACK":
+				
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nYou trip when attempting to go in for an attack, causing you to fall into your own blade! ");
+					System.out.println("You damage yourself for " + damageSelf + "HP");
+					player.health = player.health - damageSelf;
+				}
+				
+				else {
+					enemyObject.health = player.baseAttack(player.name, player.health, player.baseDamage, enemyObject.health);
+				}
+				
+				break;
+				
+			case "INVENTORY":
+				combatItemBag();
+				break;
+			
+			case "RUN":
+				int fleeChance = diceRoll();
+				System.out.println("You rolled: " + fleeChance);
+				
+				if (fleeChance == 20) { System.out.println("You successfully ran away"); break breakLabel; }
+				
+				break;
+			
+			default:
+				System.out.println("Not a valid option, you forfeit your turn.");
+			}
+			
+			System.out.println();
+			
+			//companions turn:
+			//3 separate if statements to check if the player has any companions, I use 3 if's instead of else if's as I may make it so that you can have all 3 companions in the future
+			if (player.hasCompanion1) {
+				enemyObject.health = companion1.baseAttack(companion1.name, companion1.health, companion1.baseDamage, enemyObject.health);
+			}
+			if (player.hasCompanion2) {
+				enemyObject.health = companion2.baseAttack(companion2.name, companion2.health, companion2.baseDamage, enemyObject.health);
+			}
+			if (player.hasCompanion3) {
+				enemyObject.health = companion3.baseAttack(companion3.name, companion3.health, companion3.baseDamage, enemyObject.health);
+			}
+			
+			
+			//If enemy dies:
+			if (enemyObject.health <= 0) {
+				int gold = randNum1To50();
+				System.out.println("You have won!");
+				System.out.println("You search the " + enemyObject.name + " and find " + gold + " gold!\n");
+				player.gold = player.gold + gold;
+				break breakLabel;
+			}
+			
+			
+			//start of enemies turn:
+			int enemyChoice = diceRoll();
+			int randNum = randNum1To100();
+			System.out.println();
+			//System.out.println(enemyObject.name + "heal dice roll: " + enemyChoice); //this outputs to the console the diceroll value to see if the enemy will heal or not
+			
+			//if for enemy healing:
+			if(enemyObject.health <= 30 && enemyChoice > 17  && !enemyObject.name.toUpperCase().equals("TROLL") && !enemyObject.name.toUpperCase().equals("WEREWOLF") && !enemyObject.name.toUpperCase().equals("SKELETON")){ //enemy heals
+				System.out.println(enemyObject.name + " has used a healing potion"); // Letting you know enemies action
+				enemyObject.health += 20; // enemy heals
+				
+				System.out.println(); //line to spread out console
+				
+				System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health); //writing new health to the console
+			}
+			
+			
+			if (randNum <= 16 && player.hasCompanion1 == true) { //if for enemy doing damage to companion1 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion1.name);
+					companion1.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion1.health);
+				}
+			}
+			
+			else if (randNum > 16 && randNum <= 32 && player.hasCompanion2 == true) { //else if for enemy doing damage to companion2 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion2.name);
+					companion2.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion2.health);
+				}
+			}
+			
+			else if (randNum > 32 && randNum <= 48 && player.hasCompanion3 == true) { //else if for enemy doing damage to companion3 has roughly 1/6th of chance
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks " + companion3.name);
+					companion3.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, companion3.health);
+				}
+			}
+			
+			else { //else for enemy attacking the player roughly 1/2th of chance if you have all 3 companions, if you have none this is 100% of the time 
+				//I did think about just doing one code block as the dice roll added onto the damage but I didn't like that idea, although it likely would have been better for the code
+				int attackRoll = diceRoll();
+				if (attackRoll == 0) { //must change, if roll currently 0 it attacks enemy
+					int damageSelf = diceRoll();
+					System.out.println("Rolled: 0\nCritical fail!\nThe " + enemyObject.name + " moves in for a huge blow... before slipping and falling into it's own attack");
+					System.out.println(enemyObject.name + " damage yourself for " + damageSelf + "HP");
+					enemyObject.health = enemyObject.health - damageSelf;
+				}
+				
+				else {
+					System.out.println(enemyObject.name + " attacks you!");
+					player.health = enemyObject.baseAttack(enemyObject.name, enemyObject.health, enemyObject.baseDamage, player.health);
+				}
+			}
+			
+			System.out.println();
+			
+			//end of enemies turn, listing everyone health:
+			System.out.println(enemyObject.name + " Health: " + enemyObject.health + "\nYour health: " + player.health);
+			if (player.hasCompanion1 == true) { System.out.println(companion1.name + " health: " + companion1.health); }
+			if (player.hasCompanion2 == true) { System.out.println(companion2.name + " health: " + companion2.health); }
+			if (player.hasCompanion3 == true) { System.out.println(companion3.name + " health: " + companion3.health); }
+			
+			
+			//if you or companions die:
+			if (player.health <= 0) {
+				System.out.println("You died, tough luck");
+				System.exit(0);
+			}
+			else if (companion1.health <= 0) {
+				player.hasCompanion1 = false;
+				player.companion1Died = true;
+				System.out.println(companion1.name + " has died!");
+			}
+			else if (companion2.health <= 0) {
+				player.hasCompanion2 = false;
+				player.companion2Died = true;
+				System.out.println(companion2.name + " has died!");
+			}
+			else if (companion3.health <= 0) {
+				player.hasCompanion3 = false;
+				player.companion3Died = true;
+				System.out.println(companion3.name + " has died!");
+			}
+			
+		}
+
+	}
+	
+	public void town() {
+
+		boolean inTown = true;
+		while(inTown) {
+			System.out.println("Where would you like to go?\nThe Inn, The Whispering Winds \nThe local trader");
+			System.out.println("Or would you like to leave?");
+			String choice = input.nextLine().toUpperCase();
+			
+			if (choice.contains("INN") || choice.contains("WHISPERING WINDS")) {
+				inn();
+			}
+			
+			else if(choice.contains("TRADER") && player.visitedTrader == false) {
+				System.out.println("You enter the local trader to be greeted by a dwarf, though only 3 foot tall he had the face of a man who had lived at least 200 years");
+				System.out.println("\"A CUSTOMER!\" Screamed the dwarf, seemingly both excited and angry at the fact you walked in");
+				System.out.println("\"Sorry 'bout tha. Me names Aedril, local shop keep 'n dwarf the folk round 'ere don't want me to forget that part. What's yer name?\"");
+				System.out.println("You reply, \"I'm " + player.name + ".\"");
+				System.out.println("\"Nice to meet ya! Take a look around and see if you can't find what you need.\"");
+				player.visitedTrader = true;
+				
+				System.out.println("You take look around at Aedril's stock \n\nYou find: an abundance of health potions costing 15 gold each"); //more will be added later, likely weapons and armour
+				
+				System.out.println("\"Find what you were looking for?\" Said Aedril\n");
+				shopPurchaseMenu();
+				
+			}
+			else if (choice.contains("TRADER") && player.visitedTrader == true) {
+				System.out.println("\"A CUST... oh it's you again! Good to see ya " + player.name + ".\" said the familiar voice of Aedril");
+				System.out.println("You look around the shop looking at all of Aedril's wares\nYou find: an abundance of health potions costing 15 gold each");
+				
+				System.out.println(); //line for spacing out the console
+				
+				System.out.println("\"Now then lets get straight to business. What would you like?\"");
+				
+				shopPurchaseMenu();
+				
+			}
+			
+			else if(choice.contains("LEAVE")) {
+				System.out.println("You venture out of the town, continuing on your adventure");
+				inTown = false;
+			}
+			
+			else {
+				System.out.println("Not a valid option");
+			}
+			
+		}
+		
+	}
+	
+	
+	
+	public void shopPurchaseMenu() { //this is the method that contains the code for choosing an item to purchase and it getting added to your inventory
+
+		boolean everythingYouNeed = false;
+		
+		while (everythingYouNeed == false) {
+			
+			System.out.println("What would you like to purchase \nOr will you leave:");
+			System.out.println("Your current bag contents:");
+			for (String item : player.itemBag) {
+				System.out.println(item);
+			}
+			System.out.println("Gold: " + player.gold);
+			
+			String shopPurchase = input.nextLine().toUpperCase();
+			
+			if (shopPurchase.contains("HEALTH") && player.gold >= 15) {
+				
+				for (int i = 0; i < player.itemBag.length; i++) {
+					if (player.itemBag[i].equals("Empty Slot")) {
+						player.itemBag[i] = "Health Potion";
+						player.gold -= 15;
+						break;
+					}
+					else {
+						System.out.println("Your bag is full");
+					}
+					System.out.println("Slot " + (i + 1) + " full");
+				}
+				
+			}
+			
+			else if(shopPurchase.contains("LEAVE")) {
+				System.out.println("\"Be seeing you, " + player.name + "!\" Shouted Aedril, as you walk out of the shop");
+				everythingYouNeed = true;
+			}
+			
+		}
+	}
+	
+	
+	
+	public void inn() { //this is the method that contains everything that happens in the inn in the town
+		System.out.println("You have entered the inn");
+		System.out.println("Inside there is a warm fire, lighting up the room.");
+		
+		if (player.hasCompanion1 == false && player.hasCompanion2 == false && player.companion1Died == false && player.hasCompanion2 == false) {
+			selectCompanion();
+		}
+		
+		System.out.println("\nOne of the inn keepers approaches you and asks if you'd like to rent a room for the night for 5 gold");
+		String room = input.nextLine().toUpperCase();
+		
+		if (room.contains("RENT") || room.contains("YES") && player.gold >= 5) {
+			player.gold -= 5; //paying the room keeper
+			System.out.println("\nAfter paying the fee, the inn keeper shows you to your room. The room is empty besides a hard wooden bed with sheets made of hay. \nYou sleep until the morning refilling your health");
+			player.health = player.maxHealth; //this will need to be changed when your max health value changes
+			System.out.println("You leave the inn");
+		}
+		else if (room.contains("RENT") || room.contains("YES") && player.gold < 5) {
+			System.out.println("\"Then get lost, you're wasting both our time\" said the inn keeper");
+			System.out.println("You leave the inn");
+		}
+		else {
+			System.out.println("\"Then what are you doing here? Stop wasting my time.\" said the inn keeper");
+			System.out.println("You leave the inn");
+		}
+	}
+	public void selectCompanion() { //this is the method that contains the code for selecting a companion in the inn
+		System.out.println("Sat at the bar you see two fighters sat down, one in a heavy armour made of what looks like a dark steel. The other in a lighter armour of mostly chainmail and some plate coverings");
+		System.out.println("Would you like to talk to them?");
+		String choice = input.nextLine().toUpperCase();
+		if (choice.contains("Y")) {
+			System.out.println("You go over to them, the first says he will cost 200 gold to hire, the other says he will cost 150 gold to hire");
+			System.out.println("Which would you like to hire? 1 or 2");
+			String hireCompanion = input.nextLine();
+			switch (hireCompanion){
+			case "1":
+				System.out.println("You hire " + companion1.name + " with the heavy armour");
+				player.gold = player.gold - 200;
+				player.hasCompanion1 = true;
+				break;
+			case "2":
+				System.out.println("You hire " + companion2.name + " with the light armour");
+				player.gold = player.gold - 150;
+				player.hasCompanion2 = true;
+				break;
+			default:
+				System.out.println("You hire neither companion and leave the bar");
+			}
+		}
+	}
+	
+	
+	
+	public void combatItemBag() { //method for using your item bag during combat
+		boolean doneInBag = false;
+		while(!doneInBag) {
+			
+			System.out.println("Your Inventory: ");
+			for (String item : player.itemBag) {
+				System.out.println(item);
+			}
+			
+			System.out.println("What would you like to use?");
+			System.out.println("If you are finished in your inventory type done");
+			
+			String choice = input.nextLine().toUpperCase();
+			if (choice.contains("HEALTH")) {
+				for (int i = 0; i < player.itemBag.length; i++) {
+					
+					if (player.itemBag[i].equals("Health Potion")) {
+						
+						System.out.println("You consume 1 health potion");
+						player.health += 20;
+						player.itemBag[i] = "Empty Slot";
+						
+						//stops health from going above maximum
+						if (player.health > player.maxHealth) {
+							player.health = player.maxHealth;
+						}
+						
+						System.out.println("New health: " + player.health);
+						break;
+					}
+					
+					else {
+						System.out.println("No health potion in inventory slot " + i);
+					}
+				}
+			}
+			
+			else if (choice.contains("DONE")) {
+				System.out.println("Closing inventory");
+				doneInBag = true;
+			}
+			
+		}
+		
+	}
+	
+	
+	//method to randomly select between 5 introductory messages at the start of the game
+	public void introMessages() {
+		int introChoice = randNum1To50()/10;
+		switch (introChoice) {
+		case 1:
+			System.out.println("You wake up, laying beside a wide river passing right through the centre of a dense forest. \nBeside you is your trusty 5 slot bag, your empty coin pouch, and of course your sword.");
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		}
+	}
+	
+}
