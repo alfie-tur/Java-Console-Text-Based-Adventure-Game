@@ -104,10 +104,14 @@ public class Encounters {
 					}					
 				}
 				
-				else if (randNum < 20 && player.discoveredTown == false) {
+				else if (randNum >= 70 && randNum < 90 && player.discoveredTown == false) { //town discovery
 					System.out.println("You have discovered a town!");
 					System.out.println("You make note of it's location so that you can return later to purchase some supplies\n");
 					player.discoveredTown = true;
+				}
+				
+				else if (randNum >= 70 && randNum < 90 && player.discoveredTown == true) {
+					
 				}
 				
 				else {
