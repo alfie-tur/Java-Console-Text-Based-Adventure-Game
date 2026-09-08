@@ -657,7 +657,7 @@ public class Encounters {
 			String direction = input.nextLine();
 			
 			for (int i = 0; i < 11; i++) {
-				int discover = diceRoll();
+				int discover = 7;
 				
 				if (discover == 0) {
 					System.out.println("You have entered into a large room full of enemies!");
@@ -682,13 +682,18 @@ public class Encounters {
 					System.out.println("\nYou approach the chest and find " + goldFound + " gold as well as a few health potions");
 					player.gold = player.gold + goldFound;
 					for (int j = 0; j < player.itemBag.length; j++) {
-						if (player.itemBag[j].equals("Empty Slot")) {
+						if (j == 3 && player.itemBag[j].equals("Empty Slot")) {
 							player.itemBag[j] = "Health Potion";
-						}
-						if (player.itemBag[j+1].equals("Empty Slot")) {
 							player.itemBag[j+1] = "Health Potion";
+							break;
 						}
-						if (player.itemBag[j+2].equals("Empty Slot")) {
+						else if (j == 4 && player.itemBag[j].equals("Empty Slot")) {
+							player.itemBag[j] = "Health Potion";
+							break;
+						}
+						if (player.itemBag[j].equals("Empty Slot")){
+							player.itemBag[j] = "Health Potion";
+							player.itemBag[j+1] = "Health Potion";
 							player.itemBag[j+2] = "Health Potion";
 							break;
 						}
