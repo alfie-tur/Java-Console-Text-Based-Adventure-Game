@@ -583,7 +583,7 @@ public class Encounters {
 			
 			String choice = input.nextLine().toUpperCase();
 			if (choice.contains("HEALTH")) {
-				for (int i = 0; i < player.itemBag.length; i++) {
+				for (int i = 4; i > -1; i--) {
 					
 					if (player.itemBag[i].equals("Health Potion")) {
 						
@@ -679,8 +679,20 @@ public class Encounters {
 					enemyEncounter("Skeleton", 70, 4);
 					
 					int goldFound = randNum1To100();
-					System.out.println("\nYou approach the chest and find " + goldFound + " gold");
+					System.out.println("\nYou approach the chest and find " + goldFound + " gold as well as a few health potions");
 					player.gold = player.gold + goldFound;
+					for (int j = 0; j < player.itemBag.length; j++) {
+						if (player.itemBag[j].equals("Empty Slot")) {
+							player.itemBag[j] = "Health Potion";
+						}
+						if (player.itemBag[j+1].equals("Empty Slot")) {
+							player.itemBag[j+1] = "Health Potion";
+						}
+						if (player.itemBag[j+2].equals("Empty Slot")) {
+							player.itemBag[j+2] = "Health Potion";
+							break;
+						}
+					}
 				}
 				else if (discover < 20) {
 					System.out.println("You enter a room with many pillars all over and hardly any enemies in sight");
@@ -690,7 +702,7 @@ public class Encounters {
 					for (int j = 0; j < player.itemBag.length; j++) {
 						if (player.itemBag[j].equals("Empty Slot")) {
 							player.itemBag[j] = "Health Potion";
-							break; //TO MAKE IT CERTAIN AMOUNT DO if j == 3 then break! Never mind, will not work as intended EG if player has first 3 slots full then they will get no potions
+							break; 
 						}
 					}
 					System.out.println("After clearing out the room you find a chest with " + goldFound + " gold and a chest with a health potion!");
@@ -710,6 +722,10 @@ public class Encounters {
 				}
 			}
 			
+			System.out.println("In the final room of the dungeon you find one more chest \nIt contains...");
+			int goldFound = randNum1To100() * 10;
+			System.out.println(goldFound + " gold!");
+			player.gold = player.gold + goldFound;
 			System.out.println("After you finish exploring, you turn back and make your way through the way you came and leave");
 			
 		}
