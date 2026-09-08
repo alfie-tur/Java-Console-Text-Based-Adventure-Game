@@ -46,12 +46,12 @@ public class Encounters {
 
 		player.characterCreation(); //will eventually be used to assign player attributes
 		
+		introMessages();
 		
 		boolean game = true;
 		
 		while (game) {
 			
-			introMessages();
 			
 			//lists the players options to them
 			System.out.println("What would you like to do?");
@@ -111,7 +111,27 @@ public class Encounters {
 				}
 				
 				else if (randNum >= 70 && randNum < 90 && player.discoveredTown == true) {
+					int oneInTen = randNum1To10();
 					
+					switch (oneInTen / 2) {
+					case 1:
+						location("ruined fort");
+						break;
+					case 2:
+						location("haunted catacombs");
+						break;
+					case 3:
+						location("desolate dungeon");
+						break;
+					case 4:
+						location("broken keep");
+						break;
+					case 5:
+						location("abandonded crypt");
+						break;
+					default:
+						location("crumbling castle");
+					}
 				}
 				
 				else {
@@ -581,7 +601,7 @@ public class Encounters {
 					}
 					
 					else {
-						System.out.println("No health potion in inventory slot " + i);
+						System.out.println("No health potion in inventory slot " + (i+1));
 					}
 				}
 			}
@@ -620,6 +640,83 @@ public class Encounters {
 			System.out.println("You have struggled for day journeying through the desert, but you finally made it out and are back on the cool roads of your home country");
 		}
 		System.out.println("On your back is your trusty 5 slot bag, with two health potions inside, and Your coin pouch with " + player.gold + " gold.");
+	}
+	
+	
+	//method for random locations
+	public void location(String locationName) {
+		System.out.println("You have found a " + locationName);
+		System.out.println("Do you approach? \nYes or No?");
+		String choice = input.nextLine().toUpperCase();
+		
+		breakLabel:
+		if (choice.contains("YES")) {
+			System.out.println("\nYou enter the " + locationName);
+			
+			System.out.println("In the entrance room there 3 seperate corridors, which one will you go down? \nThe one on the left, right or centre?");
+			String direction = input.nextLine();
+			
+			for (int i = 0; i < 11; i++) {
+				int discover = diceRoll();
+				
+				if (discover == 0) {
+					System.out.println("You have entered into a large room full of enemies!");
+					
+					enemyEncounter("Skeleton", 80, 4);
+					enemyEncounter("Skeleton", 50, 4);
+					enemyEncounter("Skeleton", 70, 2);
+					
+					System.out.println("After the perilous fight you find a load of health potions in a chest and fill up your bag with them!");
+					for (int j = 0; j < player.itemBag.length; j++) {
+						if (player.itemBag[j].equals("Empty Slot")) {
+							player.itemBag[j] = "Health Potion";
+						}
+					}
+				}
+				else if (discover < 10) {
+					System.out.println("You enter a large spherical shaped room containing few enemies and a chest");
+					enemyEncounter("Skeleton", 70, 4);
+					enemyEncounter("Skeleton", 70, 4);
+					
+					int goldFound = randNum1To100();
+					System.out.println("\nYou approach the chest and find " + goldFound + " gold");
+					player.gold = player.gold + goldFound;
+				}
+				else if (discover < 20) {
+					System.out.println("You enter a room with many pillars all over and hardly any enemies in sight");
+					enemyEncounter("Skeleton", 80, 4);
+					int goldFound = randNum1To100()*2;
+					player.gold = player.gold + goldFound;
+					for (int j = 0; j < player.itemBag.length; j++) {
+						if (player.itemBag[j].equals("Empty Slot")) {
+							player.itemBag[j] = "Health Potion";
+							break; //TO MAKE IT CERTAIN AMOUNT DO if j == 3 then break! Never mind, will not work as intended EG if player has first 3 slots full then they will get no potions
+						}
+					}
+					System.out.println("After clearing out the room you find a chest with " + goldFound + " gold and a chest with a health potion!");
+				}
+				else {
+					int goldFound = randNum1To100()*5;
+					System.out.println("You find a room with no enemies in it at all, and a huge chest with " + goldFound + " gold!");
+					player.gold = player.gold + goldFound;
+				}
+				
+				
+				System.out.println("Would you like to turn back and leave?");
+				String leave = input.nextLine().toUpperCase();
+				if (leave.contains("YES")) {
+					System.out.println("You make your way back out of the " + locationName + ", being careful not to alert anything else on the way out");
+					break breakLabel;
+				}
+			}
+			
+			System.out.println("After you finish exploring, you turn back and make your way through the way you came and leave");
+			
+		}
+		
+		else {
+			System.out.println("You turn back and leave");
+		}
 	}
 	
 }
