@@ -3,6 +3,14 @@ import java.util.Scanner;
 
 public class Player extends Fighting { //inherits from Fighting
 	
+	static int randNum1To30(){ //random number from 1-30
+		int max = 30;
+		int min = 1;
+		int range = max - min;
+		int rand = (int)(Math.random() * range + min);
+		return rand;
+	}
+	
 	//List of attributes all used throughout the program
 	String name; //players name
 	int health = 100; //players current health
@@ -12,13 +20,14 @@ public class Player extends Fighting { //inherits from Fighting
 	
 	
 	//Player inventory attributes
-	String[] itemBag = { "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot", "Empty Slot"}; //an array for the players inventory
-	int gold = 0; //the players money
+	String[] itemBag = { "Health Potion", "Health Potion", "Empty Slot", "Empty Slot", "Empty Slot"}; //an array for the players inventory
+	int gold = randNum1To30();//the players money
 	
 	
 	//story/quest/location attributes
 	boolean discoveredTown = false; //boolean for if the player has discovered the town or not, when true they can return to it if not in combat 
 	boolean visitedTrader = false; //very similar to discoveredTown, once you visit the trader once it turns true giving you slightly different dialogue. Adds nicely to world building
+	boolean vampireLair = false;
 	
 	
 	//companion related attributes:

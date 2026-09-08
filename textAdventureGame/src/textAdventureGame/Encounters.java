@@ -50,7 +50,9 @@ public class Encounters {
 		boolean game = true;
 		
 		while (game) {
-		
+			
+			introMessages();
+			
 			//lists the players options to them
 			System.out.println("What would you like to do?");
 			System.out.println("Walk");
@@ -592,24 +594,28 @@ public class Encounters {
 	
 	//method to randomly select between 5 introductory messages at the start of the game
 	public void introMessages() {
-		int introChoice = randNum1To50()/10;
-		switch (introChoice) {
+		int introChoice = randNum1To50();
+		switch (introChoice / 10) {
 		case 1:
-			System.out.println("You wake up, laying beside a wide river passing right through the centre of a dense forest. \nBeside you is your trusty 5 slot bag, your empty coin pouch, and of course your sword.");
+			System.out.println("You wake up, laying beside a wide river passing right through the centre of a dense forest.");
 			break;
 		case 2:
-			
+			System.out.println("You just narrowly managed to escape! You have been held by bandits for weeks now but have finally made it out.");
 			break;
 		case 3:
-			
+			System.out.println("After a long and harrowing journey through the mountains, you finally make it to some normal land.");
 			break;
 		case 4:
-			
+			System.out.println("After cutting your way through the thick forest, you find yourself in a calm woods with a long road ahead.");
 			break;
 		case 5:
-			
+			System.out.println("You wake up from a long rest. You have not long escaped the vampires lair and now managing to finally recover you can hit the road!");
+			player.vampireLair = true;
 			break;
+		default:
+			System.out.println("You have struggled for day journeying through the desert, but you finally made it out and are back on the cool roads of your home country");
 		}
+		System.out.println("On your back is your trusty 5 slot bag, with two health potions inside, and Your coin pouch with " + player.gold + " gold.");
 	}
 	
 }
